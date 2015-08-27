@@ -208,7 +208,7 @@ c_array_remove_index_fast(c_array_t *array, unsigned int index_)
 }
 
 c_array_t *
-c_array_set_size(c_array_t *array, int length)
+c_array_set_size(c_array_t *array, unsigned int length)
 {
     c_array_priv_t *priv = (c_array_priv_t *)array;
 

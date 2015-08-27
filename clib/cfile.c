@@ -264,7 +264,7 @@ c_file_get_contents(const char *filename,
 int
 c_file_open_tmp(const char *tmpl, char **name_used, c_error_t **error)
 {
-    const static char *default_tmpl = ".XXXXXX";
+    static const char *default_tmpl = ".XXXXXX";
     char *t;
     int fd;
     size_t len;

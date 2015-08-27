@@ -1,5 +1,3 @@
-include $(top_srcdir)/build/autotools/Makefile.am.silent
-
 include Makefile.sources
 
 EXTRA_DIST =
@@ -10,10 +8,18 @@ else
 noinst_LTLIBRARIES = libclib.la
 endif
 
+AM_CPPFLAGS = \
+	-I$(top_builddir) \
+	-I$(top_srcdir) \
+	-I$(srcdir) \
+	-I$(srcdir)/sfmt \
+	$(CLIB_EXTRA_CFLAGS) \
+	-DSFMT_MEXP=19937 \
+	-D_C_COMPILATION \
+	$(NULL)
 
-libclib_la_LIBADD = $(CLIB_DEP_LIBS)
-
-EXTRA_DIST += sfmt/README.txt sfmt/LICENSE.txt
+libclib_la_LIBADD =
+libclib_la_LDFLAGS =
 
 libclib_la_SOURCES = \
 	$(clib_common_source) \
@@ -25,7 +31,12 @@ threads_files = ctls.c
 
 if OS_UNIX
 libclib_la_SOURCES += $(unix_files) $(threads_files)
-libclib_la_LIBADD += $(top_builddir)/libuv/libuv.la
+endif
+
+if OS_DARWIN
+libclib_la_SOURCES += \
+	fmemopen.c \
+	memmem.c
 endif
 
 if OS_WIN32
@@ -38,35 +49,19 @@ libclib_la_SOURCES += \
 	memmem.c
 libclib_la_SOURCES += $(threads_files)
 libclib_la_LIBADD += -lm $(LTLIBICONV) -lpsapi
-libclib_la_LIBADD += $(top_builddir)/libuv/libuv.la
+libclib_la_LDFLAGS += -no-undefined
 endif
 
-if OS_DARWIN
-libclib_la_SOURCES += \
-	fmemopen.c \
-	memmem.c
+if USE_SYSTEM_UV
+AM_CPPFLAGS += $(LIBUV_DEP_CFLAGS)
+libclib_la_LIBADD += $(LIBUV_DEP_LIBS)
+else
+AM_CPPFLAGS += -I$(top_srcdir)/libuv/include
 libclib_la_LIBADD += $(top_builddir)/libuv/libuv.la
 endif
-
-AM_CPPFLAGS = \
-	-I$(top_builddir) \
-	-I$(top_srcdir) \
-	-I$(srcdir) \
-	-I$(srcdir)/sfmt \
-	-I$(top_srcdir)/libuv/include \
-	-Wall \
-	$(CLIB_DEP_CFLAGS) \
-	$(RIG_EXTRA_CFLAGS) \
-	-DSFMT_MEXP=19937 \
-	-D_C_COMPILATION \
-	$(NULL)
-
-#libclib_la_LIBADD += $(LTLIBICONV)
-#libclib_la_LDFLAGS = -static
-
-#MAINTAINERCLEANFILES = Makefile.in
 
 EXTRA_DIST += clib-config.h.in
+EXTRA_DIST += sfmt/README.txt sfmt/LICENSE.txt
 
 android_moduledir = $(datadir)/android_modules/clib
 android_module_DATA = \
@@ -75,8 +70,7 @@ android_module_DATA = \
 	$(unix_files) \
 	$(threads_files) \
 	vasprintf.c \
-	Android.mk \
-	android/clib-config.h
+	Android.mk
 
 dist_source_dir = $(datadir)/src/clib
 dist_source = \

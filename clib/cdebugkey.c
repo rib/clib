@@ -48,7 +48,7 @@ c_parse_debug_string(const char *string,
     }
 
     for (i = 0; strv[i]; i++) {
-        int j;
+        unsigned int j;
 
         for (j = 0; j < nkeys; j++)
             if (strcasecmp(keys[j].key, strv[i]) == 0)

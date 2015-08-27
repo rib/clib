@@ -233,7 +233,7 @@ logged:
     free(msg);
 
     if (log_level & fatal) {
-#if defined(__EMSCRIPTEN__) && defined(RIG_ENABLE_DEBUG)
+#if defined(__EMSCRIPTEN__) && defined(C_DEBUG)
         emscripten_debugger();
 #else
         abort();

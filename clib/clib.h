@@ -933,7 +933,7 @@ c_array_t *c_array_remove_index(c_array_t *array, unsigned int index_);
 c_array_t *c_array_remove_index_fast(c_array_t *array, unsigned int index_);
 unsigned int c_array_get_element_size(c_array_t *array);
 void c_array_sort(c_array_t *array, c_compare_func_t compare);
-c_array_t *c_array_set_size(c_array_t *array, int length);
+c_array_t *c_array_set_size(c_array_t *array, unsigned int length);
 
 #define c_array_append_val(a, v) (c_array_append_vals((a), &(v), 1))
 #define c_array_insert_val(a, i, v) (c_array_insert_vals((a), (i), &(v), 1))
