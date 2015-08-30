@@ -30,8 +30,7 @@ Clib has been spun out of the
 useful for others. Rig is currently the primary user influencing
 what's included in the api.
 
-Clib currently includes:
-###Data Types
+####Data Types
 * Arrays
 * Pointer Arrays
 * Byte Arrays
@@ -44,7 +43,8 @@ Clib currently includes:
   * Matrices
   * Eulers
   * Quaternions
-###Utilities
+
+####Utilities
 * Infallible memory allocation
 * C style exceptions (similar to glib's GError api)
 * String manipulation
@@ -60,7 +60,8 @@ Clib currently includes:
 * High precision monotonic timestamps
 * Timers
 * Hookable Logging
-###Portability
+
+####Portability
 * Module loading API (trivial wrapper of libuv API - may be removed)
 * Non-recursive Mutex API
 * Thread Local Storage
