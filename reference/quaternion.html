@@ -1,0 +1,1238 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Quaternions &mdash; Clib 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Clib 1.0.0 documentation" href="../index.html"/>
+        <link rel="prev" title="Euler" href="euler.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../index.html" class="icon icon-home"> Clib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Api Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matrices.html">Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euler.html">Euler</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Quaternions</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Clib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Quaternions</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/reference/quaternion.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="quaternions">
+<span id="quaternions-api"></span><h1>Quaternions<a class="headerlink" href="#quaternions" title="Permalink to this headline">¶</a></h1>
+<p>API for initializing and manipulating
+quaternions.</p>
+<p>Quaternions have become a standard form for representing 3D
+rotations and have some nice properties when compared with other
+representation such as (roll,pitch,yaw) Euler angles. They can be
+used to interpolate between different rotations and they don&#8217;t
+suffer from a problem called
+<a class="reference external" href="http://en.wikipedia.org/wiki/Gimbal_lock">&#8220;Gimbal lock&#8221;</a>
+where two of the axis of rotation may become aligned and you loose a
+degree of freedom.
+.</p>
+<dl class="type">
+<dt id="c.c_quaternion_t">
+<code class="descname">c_quaternion_t</code><a class="headerlink" href="#c.c_quaternion_t" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="member">
+<dt id="c.c_quaternion_t.w">
+<code class="descname">w</code><a class="headerlink" href="#c.c_quaternion_t.w" title="Permalink to this definition">¶</a></dt>
+<dd><p>based on the angle of rotation it is cos(𝜃/2)</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.c_quaternion_t.x">
+<code class="descname">x</code><a class="headerlink" href="#c.c_quaternion_t.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>based on the angle of rotation and x component of the axis of
+rotation it is sin(𝜃/2)*axis.x</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.c_quaternion_t.y">
+<code class="descname">y</code><a class="headerlink" href="#c.c_quaternion_t.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>based on the angle of rotation and y component of the axis of
+rotation it is sin(𝜃/2)*axis.y</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.c_quaternion_t.z">
+<code class="descname">z</code><a class="headerlink" href="#c.c_quaternion_t.z" title="Permalink to this definition">¶</a></dt>
+<dd><p>based on the angle of rotation and z component of the axis of
+rotation it is sin(𝜃/2)*axis.z</p>
+</dd></dl>
+
+<p>A quaternion is comprised of a scalar component and a 3D vector
+component. The scalar component is normally referred to as w and the
+vector might either be referred to as v or a (for axis) or expanded
+with the individual components: (x, y, z) A full quaternion would
+then be written as <code class="docutils literal"><span class="pre">[w</span> <span class="pre">(x,</span> <span class="pre">y,</span> <span class="pre">z)]</span></code>.</p>
+<p>Quaternions can be considered to represent an axis and angle
+pair although these numbers are buried somewhat under some
+maths...</p>
+<p>For the curious you can see here that a given axis (a) and angle (𝜃)
+pair are represented in a quaternion as follows:</p>
+<div class="highlight-c"><div class="highlight"><pre>[w=cos(𝜃/2) ( x=sin(𝜃/2)*a.x, y=sin(𝜃/2)*a.y, z=sin(𝜃/2)*a.x )]
+</pre></div>
+</div>
+<p>Unit Quaternions:
+When using Quaternions to represent spatial orientations for 3D
+graphics it&#8217;s always assumed you have a unit quaternion. The
+magnitude of a quaternion is defined as:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="n">sqrt</span> <span class="p">(</span><span class="n">w²</span> <span class="o">+</span> <span class="n">x²</span> <span class="o">+</span> <span class="n">y²</span> <span class="o">+</span> <span class="n">z²</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and a unit quaternion satisfies this equation:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="n">w²</span> <span class="o">+</span> <span class="n">x²</span> <span class="o">+</span> <span class="n">y²</span> <span class="o">+</span> <span class="n">z²</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Most of the time we don&#8217;t have to worry about the maths involved
+with quaternions but if you are curious to learn more here are some
+external references:</p>
+<p>1.
+<a class="reference external" href="http://mathworld.wolfram.com/Quaternion.html">http://mathworld.wolfram.com/Quaternion.html</a></p>
+<p>2.
+<a class="reference external" href="http://www.gamedev.net/reference/articles/article1095.asp">http://www.gamedev.net/reference/articles/article1095.asp</a></p>
+<p>3.
+<a class="reference external" href="http://www.cprogramming.com/tutorial/3d/quaternions.html">http://www.cprogramming.com/tutorial/3d/quaternions.html</a></p>
+<p>4.
+<a class="reference external" href="http://www.isner.com/tutorials/quatSpells/quaternion_spells_12.htm">http://www.isner.com/tutorials/quatSpells/quaternion_spells_12.htm</a></p>
+<p>5.
+3D Maths Primer for Graphics and Game Development ISBN-10: 1556229119</p>
+<p>6.
+<a class="reference external" href="http://www.cs.caltech.edu/courses/cs171/quatut.pdf">http://www.cs.caltech.edu/courses/cs171/quatut.pdf</a></p>
+<p>7.
+<a class="reference external" href="http://www.j3d.org/matrix_faq/matrfaq_latest.html:c:type">http://www.j3d.org/matrix_faq/matrfaq_latest.html:c:type</a>:<cite>Q56</cite></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_init">
+void <code class="descname">c_quaternion_init</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;angle</em>, float<em>&nbsp;x</em>, float<em>&nbsp;y</em>, float<em>&nbsp;z</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_init" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; An uninitialized <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>angle</strong> &#8211; The angle you want to rotate around the given axis</li>
+<li><strong>x</strong> &#8211; The x component of your axis vector about which you want to</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>rotate.
+:param y: The y component of your axis vector about which you want to</p>
+<p>rotate.
+:param z: The z component of your axis vector about which you want to</p>
+<p>rotate.</p>
+<p>Initializes a quaternion that rotates <code class="xref c c-data docutils literal"><span class="pre">angle</span></code> degrees around the
+axis vector (<code class="xref c c-data docutils literal"><span class="pre">x</span></code>, <code class="xref c c-data docutils literal"><span class="pre">y</span></code>, <code class="xref c c-data docutils literal"><span class="pre">z</span></code>). The axis vector does not need to be
+normalized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A normalized, unit quaternion representing an orientation</td>
+</tr>
+</tbody>
+</table>
+<p>rotated <code class="xref c c-data docutils literal"><span class="pre">angle</span></code> degrees around the axis vector (<code class="xref c c-data docutils literal"><span class="pre">x</span></code>, <code class="xref c c-data docutils literal"><span class="pre">y</span></code>, <code class="xref c c-data docutils literal"><span class="pre">z</span></code>)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_init_from_angle_vector">
+void <code class="descname">c_quaternion_init_from_angle_vector</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;angle</em>, const float<em>&nbsp;*axis3f</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_init_from_angle_vector" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; An uninitialized <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>angle</strong> &#8211; The angle to rotate around <code class="xref c c-data docutils literal"><span class="pre">axis3f</span></code></li>
+<li><strong>axis3f</strong> &#8211; your 3 component axis vector about which you want to rotate.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a quaternion that rotates <code class="xref c c-data docutils literal"><span class="pre">angle</span></code> degrees around the
+given <code class="xref c c-data docutils literal"><span class="pre">axis</span></code> vector. The axis vector does not need to be
+normalized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A normalized, unit quaternion representing an orientation</td>
+</tr>
+</tbody>
+</table>
+<p>rotated <code class="xref c c-data docutils literal"><span class="pre">angle</span></code> degrees around the given <code class="xref c c-data docutils literal"><span class="pre">axis</span></code> vector.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_init_identity">
+void <code class="descname">c_quaternion_init_identity</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_init_identity" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; An uninitialized <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes the quaternion with the canonical quaternion identity
+[1 (0, 0, 0)] which represents no rotation. Multiplying a
+quaternion with this identity leaves the quaternion unchanged.</p>
+<p>You might also want to consider using
+cg_get_static_identity_quaternion().</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_init_from_array">
+void <code class="descname">c_quaternion_init_from_array</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, const float<em>&nbsp;*array</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_init_from_array" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>array</strong> &#8211; An array of 4 floats w,(x,y,z)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a [w (x, y,z)] quaternion directly from an array of 4
+floats: [w,x,y,z].</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_init_from_x_rotation">
+void <code class="descname">c_quaternion_init_from_x_rotation</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;angle</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_init_from_x_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; An uninitialized <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>angle</strong> &#8211; The angle to rotate around the x axis</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>XXX: check which direction this rotates</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_init_from_y_rotation">
+void <code class="descname">c_quaternion_init_from_y_rotation</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;angle</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_init_from_y_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; An uninitialized <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>angle</strong> &#8211; The angle to rotate around the y axis</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_init_from_z_rotation">
+void <code class="descname">c_quaternion_init_from_z_rotation</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;angle</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_init_from_z_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; An uninitialized <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>angle</strong> &#8211; The angle to rotate around the z axis</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_init_from_euler">
+void <code class="descname">c_quaternion_init_from_euler</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, const <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_init_from_euler" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>euler</strong> &#8211; A <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> with which to initialize the quaternion</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_init_from_matrix">
+void <code class="descname">c_quaternion_init_from_matrix</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, const <a class="reference internal" href="matrices.html#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_init_from_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A Quaternion</li>
+<li><strong>matrix</strong> &#8211; A rotation matrix with which to initialize the quaternion</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a quaternion from a rotation matrix.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_equal">
+_Bool <code class="descname">c_quaternion_equal</code><span class="sig-paren">(</span>const void<em>&nbsp;*v1</em>, const void<em>&nbsp;*v2</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_equal" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>v1</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>v2</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compares that all the components of quaternions <code class="xref c c-data docutils literal"><span class="pre">a</span></code> and <code class="xref c c-data docutils literal"><span class="pre">b</span></code> are
+equal.</p>
+<p>An epsilon value is not used to compare the float components, but
+the == operator is at least used so that 0 and -0 are considered
+equal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">true</span></code> if the quaternions are equal else <code class="docutils literal"><span class="pre">false</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_copy">
+<a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a> *<code class="descname">c_quaternion_copy</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*src</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_copy" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>src</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Allocates a new <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> on the stack and initializes it with
+the same values as <code class="xref c c-data docutils literal"><span class="pre">src</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A newly allocated <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> which should be freed</td>
+</tr>
+</tbody>
+</table>
+<p>using c_quaternion_free()</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_free">
+void <code class="descname">c_quaternion_free</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_free" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Frees a <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> that was previously allocated via
+c_quaternion_copy().</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_get_rotation_angle">
+float <code class="descname">c_quaternion_get_rotation_angle</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_get_rotation_angle" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_get_rotation_axis">
+void <code class="descname">c_quaternion_get_rotation_axis</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;*vector3</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_get_rotation_axis" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>vector3</strong> &#8211; (out): an allocated 3-float array</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_normalize">
+void <code class="descname">c_quaternion_normalize</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_normalize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_dot_product">
+float <code class="descname">c_quaternion_dot_product</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*a</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*b</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_dot_product" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>b</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_invert">
+void <code class="descname">c_quaternion_invert</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_invert" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_multiply">
+void <code class="descname">c_quaternion_multiply</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*result</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*left</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*right</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_multiply" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; The destination <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>left</strong> &#8211; The second <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> rotation to apply</li>
+<li><strong>right</strong> &#8211; The first <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> rotation to apply</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This combines the rotations of two quaternions into <code class="xref c c-data docutils literal"><span class="pre">result</span></code>. The
+operation is not commutative so the order is important; AxB
+!= BxA. Clib follows the standard convention for quaternions here
+so the rotations are applied <code class="xref c c-data docutils literal"><span class="pre">right</span></code> to <code class="xref c c-data docutils literal"><span class="pre">left</span></code>. This is similar to the
+combining of matrices.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is possible to multiply the <code class="xref c c-data docutils literal"><span class="pre">a</span></code> quaternion in-place, so
+<code class="xref c c-data docutils literal"><span class="pre">result</span></code> can be equal to <code class="xref c c-data docutils literal"><span class="pre">a</span></code> but can&#8217;t be equal to <code class="xref c c-data docutils literal"><span class="pre">b</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_pow">
+void <code class="descname">c_quaternion_pow</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;exponent</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_pow" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>exponent</strong> &#8211; the exponent</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_slerp">
+void <code class="descname">c_quaternion_slerp</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*result</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*a</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*b</em>, float<em>&nbsp;t</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_slerp" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; The destination <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>a</strong> &#8211; The first <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>b</strong> &#8211; The second <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>t</strong> &#8211; The factor in the range [0,1] used to interpolate between</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>quaternion <code class="xref c c-data docutils literal"><span class="pre">a</span></code> and <code class="xref c c-data docutils literal"><span class="pre">b</span></code>.</p>
+<p>Performs a spherical linear interpolation between two quaternions.</p>
+<p>Noteable properties:</p>
+<p>1.
+commutative: No</p>
+<p>2.
+constant velocity: Yes</p>
+<p>3.
+torque minimal (travels along the surface of the 4-sphere): Yes</p>
+<p>4.
+more expensive than c_quaternion_nlerp()</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_nlerp">
+void <code class="descname">c_quaternion_nlerp</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*result</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*a</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*b</em>, float<em>&nbsp;t</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_nlerp" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; The destination <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>a</strong> &#8211; The first <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>b</strong> &#8211; The second <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>t</strong> &#8211; The factor in the range [0,1] used to interpolate between</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>quaterion <code class="xref c c-data docutils literal"><span class="pre">a</span></code> and <code class="xref c c-data docutils literal"><span class="pre">b</span></code>.</p>
+<p>Performs a normalized linear interpolation between two quaternions.
+That is it does a linear interpolation of the quaternion components
+and then normalizes the result. This will follow the shortest arc
+between the two orientations (just like the slerp() function) but
+will not progress at a constant speed. Unlike slerp() nlerp is
+commutative which is useful if you are blending animations
+together. (I.e. nlerp (tmp, a, b) followed by nlerp (result, tmp,
+d) is the same as nlerp (tmp, a, d) followed by nlerp (result, tmp,
+b)). Finally nlerp is cheaper than slerp so it can be a good choice
+if you don&#8217;t need the constant speed property of the slerp() function.</p>
+<p>Notable properties:</p>
+<p>1.
+commutative: Yes</p>
+<p>2.
+constant velocity: No</p>
+<p>3.
+torque minimal (travels along the surface of the 4-sphere): Yes</p>
+<p>4.
+faster than c_quaternion_slerp()</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_quaternion_squad">
+void <code class="descname">c_quaternion_squad</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*result</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*prev</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*a</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*b</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*next</em>, float<em>&nbsp;t</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_quaternion_squad" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; The destination <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>prev</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> used before <code class="xref c c-data docutils literal"><span class="pre">a</span></code></li>
+<li><strong>a</strong> &#8211; The first <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>b</strong> &#8211; The second <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>next</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> that will be used after <code class="xref c c-data docutils literal"><span class="pre">b</span></code></li>
+<li><strong>t</strong> &#8211; The factor in the range [0,1] used to interpolate between</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>quaternion <code class="xref c c-data docutils literal"><span class="pre">a</span></code> and <code class="xref c c-data docutils literal"><span class="pre">b</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_init</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;angle</em>, float<em>&nbsp;x</em>, float<em>&nbsp;y</em>, float<em>&nbsp;z</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; An uninitialized <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>angle</strong> &#8211; The angle you want to rotate around the given axis</li>
+<li><strong>x</strong> &#8211; The x component of your axis vector about which you want to</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>rotate.
+:param y: The y component of your axis vector about which you want to</p>
+<p>rotate.
+:param z: The z component of your axis vector about which you want to</p>
+<p>rotate.</p>
+<p>Initializes a quaternion that rotates <code class="xref c c-data docutils literal"><span class="pre">angle</span></code> degrees around the
+axis vector (<code class="xref c c-data docutils literal"><span class="pre">x</span></code>, <code class="xref c c-data docutils literal"><span class="pre">y</span></code>, <code class="xref c c-data docutils literal"><span class="pre">z</span></code>). The axis vector does not need to be
+normalized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A normalized, unit quaternion representing an orientation</td>
+</tr>
+</tbody>
+</table>
+<p>rotated <code class="xref c c-data docutils literal"><span class="pre">angle</span></code> degrees around the axis vector (<code class="xref c c-data docutils literal"><span class="pre">x</span></code>, <code class="xref c c-data docutils literal"><span class="pre">y</span></code>, <code class="xref c c-data docutils literal"><span class="pre">z</span></code>)</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_init_from_angle_vector</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;angle</em>, const float<em>&nbsp;*axis3f</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; An uninitialized <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>angle</strong> &#8211; The angle to rotate around <code class="xref c c-data docutils literal"><span class="pre">axis3f</span></code></li>
+<li><strong>axis3f</strong> &#8211; your 3 component axis vector about which you want to rotate.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a quaternion that rotates <code class="xref c c-data docutils literal"><span class="pre">angle</span></code> degrees around the
+given <code class="xref c c-data docutils literal"><span class="pre">axis</span></code> vector. The axis vector does not need to be
+normalized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A normalized, unit quaternion representing an orientation</td>
+</tr>
+</tbody>
+</table>
+<p>rotated <code class="xref c c-data docutils literal"><span class="pre">angle</span></code> degrees around the given <code class="xref c c-data docutils literal"><span class="pre">axis</span></code> vector.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_init_identity</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; An uninitialized <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes the quaternion with the canonical quaternion identity
+[1 (0, 0, 0)] which represents no rotation. Multiplying a
+quaternion with this identity leaves the quaternion unchanged.</p>
+<p>You might also want to consider using
+cg_get_static_identity_quaternion().</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_init_from_array</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, const float<em>&nbsp;*array</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>array</strong> &#8211; An array of 4 floats w,(x,y,z)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a [w (x, y,z)] quaternion directly from an array of 4
+floats: [w,x,y,z].</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_init_from_x_rotation</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;angle</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; An uninitialized <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>angle</strong> &#8211; The angle to rotate around the x axis</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>XXX: check which direction this rotates</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_init_from_y_rotation</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;angle</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; An uninitialized <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>angle</strong> &#8211; The angle to rotate around the y axis</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_init_from_z_rotation</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;angle</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; An uninitialized <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>angle</strong> &#8211; The angle to rotate around the z axis</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_init_from_euler</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, const <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>euler</strong> &#8211; A <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> with which to initialize the quaternion</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_init_from_matrix</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, const <a class="reference internal" href="matrices.html#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A Quaternion</li>
+<li><strong>matrix</strong> &#8211; A rotation matrix with which to initialize the quaternion</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a quaternion from a rotation matrix.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+_Bool <code class="descname">c_quaternion_equal</code><span class="sig-paren">(</span>const void<em>&nbsp;*v1</em>, const void<em>&nbsp;*v2</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>v1</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>v2</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compares that all the components of quaternions <code class="xref c c-data docutils literal"><span class="pre">a</span></code> and <code class="xref c c-data docutils literal"><span class="pre">b</span></code> are
+equal.</p>
+<p>An epsilon value is not used to compare the float components, but
+the == operator is at least used so that 0 and -0 are considered
+equal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">true</span></code> if the quaternions are equal else <code class="docutils literal"><span class="pre">false</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a> *<code class="descname">c_quaternion_copy</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*src</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>src</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Allocates a new <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> on the stack and initializes it with
+the same values as <code class="xref c c-data docutils literal"><span class="pre">src</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A newly allocated <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> which should be freed</td>
+</tr>
+</tbody>
+</table>
+<p>using c_quaternion_free()</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_free</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Frees a <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> that was previously allocated via
+c_quaternion_copy().</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+float <code class="descname">c_quaternion_get_rotation_angle</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_get_rotation_axis</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;*vector3</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>vector3</strong> &#8211; (out): an allocated 3-float array</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_normalize</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+float <code class="descname">c_quaternion_dot_product</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*a</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*b</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>b</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_invert</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_multiply</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*result</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*left</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*right</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; The destination <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>left</strong> &#8211; The second <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> rotation to apply</li>
+<li><strong>right</strong> &#8211; The first <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> rotation to apply</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This combines the rotations of two quaternions into <code class="xref c c-data docutils literal"><span class="pre">result</span></code>. The
+operation is not commutative so the order is important; AxB
+!= BxA. Clib follows the standard convention for quaternions here
+so the rotations are applied <code class="xref c c-data docutils literal"><span class="pre">right</span></code> to <code class="xref c c-data docutils literal"><span class="pre">left</span></code>. This is similar to the
+combining of matrices.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is possible to multiply the <code class="xref c c-data docutils literal"><span class="pre">a</span></code> quaternion in-place, so
+<code class="xref c c-data docutils literal"><span class="pre">result</span></code> can be equal to <code class="xref c c-data docutils literal"><span class="pre">a</span></code> but can&#8217;t be equal to <code class="xref c c-data docutils literal"><span class="pre">b</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_pow</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em>, float<em>&nbsp;exponent</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>exponent</strong> &#8211; the exponent</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_slerp</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*result</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*a</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*b</em>, float<em>&nbsp;t</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; The destination <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>a</strong> &#8211; The first <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>b</strong> &#8211; The second <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>t</strong> &#8211; The factor in the range [0,1] used to interpolate between</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>quaternion <code class="xref c c-data docutils literal"><span class="pre">a</span></code> and <code class="xref c c-data docutils literal"><span class="pre">b</span></code>.</p>
+<p>Performs a spherical linear interpolation between two quaternions.</p>
+<p>Noteable properties:</p>
+<p>1.
+commutative: No</p>
+<p>2.
+constant velocity: Yes</p>
+<p>3.
+torque minimal (travels along the surface of the 4-sphere): Yes</p>
+<p>4.
+more expensive than c_quaternion_nlerp()</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_nlerp</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*result</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*a</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*b</em>, float<em>&nbsp;t</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; The destination <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>a</strong> &#8211; The first <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>b</strong> &#8211; The second <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>t</strong> &#8211; The factor in the range [0,1] used to interpolate between</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>quaterion <code class="xref c c-data docutils literal"><span class="pre">a</span></code> and <code class="xref c c-data docutils literal"><span class="pre">b</span></code>.</p>
+<p>Performs a normalized linear interpolation between two quaternions.
+That is it does a linear interpolation of the quaternion components
+and then normalizes the result. This will follow the shortest arc
+between the two orientations (just like the slerp() function) but
+will not progress at a constant speed. Unlike slerp() nlerp is
+commutative which is useful if you are blending animations
+together. (I.e. nlerp (tmp, a, b) followed by nlerp (result, tmp,
+d) is the same as nlerp (tmp, a, d) followed by nlerp (result, tmp,
+b)). Finally nlerp is cheaper than slerp so it can be a good choice
+if you don&#8217;t need the constant speed property of the slerp() function.</p>
+<p>Notable properties:</p>
+<p>1.
+commutative: Yes</p>
+<p>2.
+constant velocity: No</p>
+<p>3.
+torque minimal (travels along the surface of the 4-sphere): Yes</p>
+<p>4.
+faster than c_quaternion_slerp()</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_quaternion_squad</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*result</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*prev</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*a</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*b</em>, const <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*next</em>, float<em>&nbsp;t</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; The destination <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>prev</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> used before <code class="xref c c-data docutils literal"><span class="pre">a</span></code></li>
+<li><strong>a</strong> &#8211; The first <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>b</strong> &#8211; The second <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+<li><strong>next</strong> &#8211; A <a class="reference internal" href="#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> that will be used after <code class="xref c c-data docutils literal"><span class="pre">b</span></code></li>
+<li><strong>t</strong> &#8211; The factor in the range [0,1] used to interpolate between</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>quaternion <code class="xref c c-data docutils literal"><span class="pre">a</span></code> and <code class="xref c c-data docutils literal"><span class="pre">b</span></code>.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="euler.html" class="btn btn-neutral" title="Euler" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Robert Bragg.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

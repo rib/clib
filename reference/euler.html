@@ -1,0 +1,556 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Euler &mdash; Clib 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Clib 1.0.0 documentation" href="../index.html"/>
+        <link rel="next" title="Quaternions" href="quaternion.html"/>
+        <link rel="prev" title="Matrices" href="matrices.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../index.html" class="icon icon-home"> Clib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Api Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matrices.html">Matrices</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Euler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quaternion.html">Quaternions</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Clib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Euler</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/reference/euler.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="euler">
+<span id="euler-api"></span><h1>Euler<a class="headerlink" href="#euler" title="Permalink to this headline">¶</a></h1>
+<p>API for initializing and manipulating
+euler angles.</p>
+<p>Euler angles are a simple representation of a 3 dimensional
+rotation; comprised of 3 ordered heading, pitch and roll rotations.
+An important thing to understand is that the axis of rotation
+belong to the object being rotated and so they also rotate as each
+of the heading, pitch and roll rotations are applied.</p>
+<p>One way to consider euler angles is to imagine controlling an
+aeroplane, where you first choose a heading (Such as flying south
+east), then you set the pitch (such as 30 degrees to take off) and
+then you might set a roll, by dipping the left, wing as you prepare
+to turn.</p>
+<p>They have some advantages and limitations that it helps to be
+aware of:</p>
+<p>Advantages:</p>
+<p>1.
+Easy to understand and use, compared to quaternions and matrices,
+so may be a good choice for a user interface.</p>
+<p>2.
+Efficient storage, needing only 3 components any rotation can be
+represented.</p>
+<p>Disadvantages:</p>
+<p>1.
+Aliasing: it&#8217;s possible to represent some rotations with multiple
+different heading, pitch and roll rotations.</p>
+<p>2.
+They can suffer from a problem called Gimbal Lock. A good
+explanation of this can be seen on wikipedia here:
+<a class="reference external" href="http://en.wikipedia.org/wiki/Gimbal_lock">http://en.wikipedia.org/wiki/Gimbal_lock</a> but basically two
+of the axis of rotation may become aligned and so you loose a
+degree of freedom. For example a pitch of +-90° would mean that
+heading and bank rotate around the same axis.</p>
+<p>3.
+If you use euler angles to orient something in 3D space and try to
+transition between orientations by interpolating the component
+angles you probably wont get the transitions you expect as they may
+not follow the shortest path between the two orientations.</p>
+<p>4.
+There&#8217;s no standard to what order the component axis rotations are
+applied. The most common convention seems to be what we do in clib
+with heading (y-axis), pitch (x-axis) and then roll (z-axis), but
+other software might apply x-axis, y-axis then z-axis or any other
+order so you need to consider this if you are accepting euler
+rotations from some other software. Other software may also use
+slightly different aeronautical terms, such as &#8220;yaw&#8221; instead of
+&#8220;heading&#8221; or &#8220;bank&#8221; instead of &#8220;roll&#8221;.</p>
+<p>To minimize the aliasing issue we may refer to &#8220;Canonical Euler&#8221;
+angles where heading and roll are restricted to +- 180° and pitch is
+restricted to +- 90°. If pitch is +- 90° bank is set to 0°.</p>
+<p>Quaternions don&#8217;t suffer from Gimbal Lock and they can be nicely
+interpolated between, their disadvantage is that they don&#8217;t have an
+intuitive representation.</p>
+<p>A common practice is to accept angles in the intuitive Euler form
+and convert them to quaternions internally to avoid Gimbal Lock and
+handle interpolations. See c_quaternion_init_from_euler().</p>
+<dl class="type">
+<dt id="c.c_euler_t">
+<code class="descname">c_euler_t</code><a class="headerlink" href="#c.c_euler_t" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="member">
+<dt id="c.c_euler_t.heading">
+<code class="descname">heading</code><a class="headerlink" href="#c.c_euler_t.heading" title="Permalink to this definition">¶</a></dt>
+<dd><p>Angle to rotate around an object&#8217;s y axis</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.c_euler_t.pitch">
+<code class="descname">pitch</code><a class="headerlink" href="#c.c_euler_t.pitch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Angle to rotate around an object&#8217;s x axis</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.c_euler_t.roll">
+<code class="descname">roll</code><a class="headerlink" href="#c.c_euler_t.roll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Angle to rotate around an object&#8217;s z axis</p>
+</dd></dl>
+
+<p>Represents an ordered rotation first of &#64;heading degrees around an
+object&#8217;s y axis, then &#64;pitch degrees around an object&#8217;s x axis and
+finally &#64;roll degrees around an object&#8217;s z axis.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It&#8217;s important to understand the that axis are associated
+with the object being rotated, so the axis also rotate in sequence
+with the rotations being applied.</p>
+</div>
+<p>The members of a <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> can be initialized, for example, with
+c_euler_init() and c_euler_init_from_quaternion ().</p>
+<p>You may also want to look at c_quaternion_init_from_euler() if
+you want to do interpolation between 3d rotations.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_euler_init">
+void <code class="descname">c_euler_init</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em>, float<em>&nbsp;heading</em>, float<em>&nbsp;pitch</em>, float<em>&nbsp;roll</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_euler_init" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>euler</strong> &#8211; The <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> angle to initialize</li>
+<li><strong>heading</strong> &#8211; Angle to rotate around an object&#8217;s y axis</li>
+<li><strong>pitch</strong> &#8211; Angle to rotate around an object&#8217;s x axis</li>
+<li><strong>roll</strong> &#8211; Angle to rotate around an object&#8217;s z axis</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes <code class="xref c c-data docutils literal"><span class="pre">euler</span></code> to represent a rotation of <code class="xref c c-data docutils literal"><span class="pre">x_angle</span></code> degrees
+around the x axis, then <code class="xref c c-data docutils literal"><span class="pre">y_angle</span></code> degrees around the y_axis and
+<code class="xref c c-data docutils literal"><span class="pre">z_angle</span></code> degrees around the z axis.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_euler_init_from_matrix">
+void <code class="descname">c_euler_init_from_matrix</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em>, const <a class="reference internal" href="matrices.html#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_euler_init_from_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>euler</strong> &#8211; The <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> angle to initialize</li>
+<li><strong>matrix</strong> &#8211; A <a class="reference internal" href="matrices.html#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a> containing a rotation, but no scaling,
+mirroring or skewing.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Extracts a euler rotation from the given <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> and
+initializses <code class="xref c c-data docutils literal"><span class="pre">euler</span></code> with the component x, y and z rotation angles.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_euler_init_from_quaternion">
+void <code class="descname">c_euler_init_from_quaternion</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em>, const <a class="reference internal" href="quaternion.html#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_euler_init_from_quaternion" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>euler</strong> &#8211; The <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> angle to initialize</li>
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> with the rotation to initialize with</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a <code class="xref c c-data docutils literal"><span class="pre">euler</span></code> rotation with the equivalent rotation
+represented by the given <code class="xref c c-data docutils literal"><span class="pre">quaternion</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_euler_equal">
+_Bool <code class="descname">c_euler_equal</code><span class="sig-paren">(</span>const void<em>&nbsp;*v1</em>, const void<em>&nbsp;*v2</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_euler_equal" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>v1</strong> &#8211; The first euler angle to compare</li>
+<li><strong>v2</strong> &#8211; The second euler angle to compare</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compares the two given euler angles <code class="xref c c-data docutils literal"><span class="pre">v1</span></code> and <code class="xref c c-data docutils literal"><span class="pre">v1</span></code> and it they are
+equal returns <code class="docutils literal"><span class="pre">true</span></code> else <code class="docutils literal"><span class="pre">false</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function only checks that all three components rotations
+are numerically equal, it does not consider that some rotations
+can be represented with different component rotations</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">true</span></code> if <code class="xref c c-data docutils literal"><span class="pre">v1</span></code> and <code class="xref c c-data docutils literal"><span class="pre">v2</span></code> are equal else <code class="docutils literal"><span class="pre">false</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_euler_copy">
+<a class="reference internal" href="#c.c_euler_t" title="c_euler_t">c_euler_t</a> *<code class="descname">c_euler_copy</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*src</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_euler_copy" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>src</strong> &#8211; A <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> to copy</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Allocates a new <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> and initilizes it with the component
+angles of <code class="xref c c-data docutils literal"><span class="pre">src</span></code>. The newly allocated euler should be freed using
+c_euler_free().</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A newly allocated <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_euler_free">
+void <code class="descname">c_euler_free</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_euler_free" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>euler</strong> &#8211; A <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> allocated via c_euler_copy()</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Frees a <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> that was previously allocated using
+c_euler_copy().</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_euler_init</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em>, float<em>&nbsp;heading</em>, float<em>&nbsp;pitch</em>, float<em>&nbsp;roll</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>euler</strong> &#8211; The <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> angle to initialize</li>
+<li><strong>heading</strong> &#8211; Angle to rotate around an object&#8217;s y axis</li>
+<li><strong>pitch</strong> &#8211; Angle to rotate around an object&#8217;s x axis</li>
+<li><strong>roll</strong> &#8211; Angle to rotate around an object&#8217;s z axis</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes <code class="xref c c-data docutils literal"><span class="pre">euler</span></code> to represent a rotation of <code class="xref c c-data docutils literal"><span class="pre">x_angle</span></code> degrees
+around the x axis, then <code class="xref c c-data docutils literal"><span class="pre">y_angle</span></code> degrees around the y_axis and
+<code class="xref c c-data docutils literal"><span class="pre">z_angle</span></code> degrees around the z axis.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_euler_init_from_matrix</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em>, const <a class="reference internal" href="matrices.html#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>euler</strong> &#8211; The <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> angle to initialize</li>
+<li><strong>matrix</strong> &#8211; A <a class="reference internal" href="matrices.html#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a> containing a rotation, but no scaling,
+mirroring or skewing.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Extracts a euler rotation from the given <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> and
+initializses <code class="xref c c-data docutils literal"><span class="pre">euler</span></code> with the component x, y and z rotation angles.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_euler_init_from_quaternion</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em>, const <a class="reference internal" href="quaternion.html#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>euler</strong> &#8211; The <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> angle to initialize</li>
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> with the rotation to initialize with</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a <code class="xref c c-data docutils literal"><span class="pre">euler</span></code> rotation with the equivalent rotation
+represented by the given <code class="xref c c-data docutils literal"><span class="pre">quaternion</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+_Bool <code class="descname">c_euler_equal</code><span class="sig-paren">(</span>const void<em>&nbsp;*v1</em>, const void<em>&nbsp;*v2</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>v1</strong> &#8211; The first euler angle to compare</li>
+<li><strong>v2</strong> &#8211; The second euler angle to compare</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compares the two given euler angles <code class="xref c c-data docutils literal"><span class="pre">v1</span></code> and <code class="xref c c-data docutils literal"><span class="pre">v1</span></code> and it they are
+equal returns <code class="docutils literal"><span class="pre">true</span></code> else <code class="docutils literal"><span class="pre">false</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function only checks that all three components rotations
+are numerically equal, it does not consider that some rotations
+can be represented with different component rotations</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">true</span></code> if <code class="xref c c-data docutils literal"><span class="pre">v1</span></code> and <code class="xref c c-data docutils literal"><span class="pre">v2</span></code> are equal else <code class="docutils literal"><span class="pre">false</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<a class="reference internal" href="#c.c_euler_t" title="c_euler_t">c_euler_t</a> *<code class="descname">c_euler_copy</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*src</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>src</strong> &#8211; A <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> to copy</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Allocates a new <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> and initilizes it with the component
+angles of <code class="xref c c-data docutils literal"><span class="pre">src</span></code>. The newly allocated euler should be freed using
+c_euler_free().</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A newly allocated <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_euler_free</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>euler</strong> &#8211; A <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> allocated via c_euler_copy()</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Frees a <a class="reference internal" href="#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> that was previously allocated using
+c_euler_copy().</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="quaternion.html" class="btn btn-neutral float-right" title="Quaternions" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="matrices.html" class="btn btn-neutral" title="Matrices" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Robert Bragg.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

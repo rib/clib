@@ -1,0 +1,1775 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Matrices &mdash; Clib 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Clib 1.0.0 documentation" href="../index.html"/>
+        <link rel="next" title="Euler" href="euler.html"/>
+        <link rel="prev" title="Vectors" href="vectors.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../index.html" class="icon icon-home"> Clib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Api Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html">Vectors</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euler.html">Euler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quaternion.html">Quaternions</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Clib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Matrices</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/reference/matrices.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="matrices">
+<span id="matrices-api"></span><h1>Matrices<a class="headerlink" href="#matrices" title="Permalink to this headline">¶</a></h1>
+<p>API for initializing and manipulating 4x4 matrices</p>
+<dl class="type">
+<dt id="c.c_matrix_t">
+<code class="descname">c_matrix_t</code><a class="headerlink" href="#c.c_matrix_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>A c_matrix_t holds a 4x4 transform matrix. This is a single precision,
+column-major matrix which means it is compatible with what OpenGL expects.</p>
+<p>A c_matrix_t can represent transforms such as, rotations, scaling,
+translation, sheering, and linear projections. You can combine these
+transforms by multiplying multiple matrices in the order you want them
+applied.</p>
+<p>The transformation of a vertex (x, y, z, w) by a c_matrix_t is given by:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="n">x_new</span> <span class="o">=</span> <span class="n">xx</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">xy</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">xz</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="n">xw</span> <span class="o">*</span> <span class="n">w</span>
+<span class="n">y_new</span> <span class="o">=</span> <span class="n">yx</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">yy</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">yz</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="n">yw</span> <span class="o">*</span> <span class="n">w</span>
+<span class="n">z_new</span> <span class="o">=</span> <span class="n">zx</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">zy</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">zz</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="n">zw</span> <span class="o">*</span> <span class="n">w</span>
+<span class="n">w_new</span> <span class="o">=</span> <span class="n">wx</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">wy</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">wz</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="n">ww</span> <span class="o">*</span> <span class="n">w</span>
+</pre></div>
+</div>
+<p>Where w is normally 1</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You must consider the members of the c_matrix_t structure read only,
+and all matrix modifications must be done via the c_matrix API. This
+allows clib to annotate the matrices internally. Violation of this will give
+undefined results. If you need to initialize a matrix with a constant other
+than the identity matrix you can use c_matrix_init_from_array().</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_init_identity">
+void <code class="descname">c_matrix_init_identity</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_init_identity" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Resets matrix to the identity matrix:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="p">.</span><span class="n">xx</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">.</span><span class="n">xy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">xz</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">xw</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="p">.</span><span class="n">yx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">yy</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">.</span><span class="n">yz</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">yw</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="p">.</span><span class="n">zx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">zy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">zz</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">.</span><span class="n">zw</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="p">.</span><span class="n">wx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">wy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">wz</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">ww</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_init_translation">
+void <code class="descname">c_matrix_init_translation</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;tx</em>, float<em>&nbsp;ty</em>, float<em>&nbsp;tz</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_init_translation" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>tx</strong> &#8211; x coordinate of the translation vector</li>
+<li><strong>ty</strong> &#8211; y coordinate of the translation vector</li>
+<li><strong>tz</strong> &#8211; z coordinate of the translation vector</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Resets matrix to the (tx, ty, tz) translation matrix:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="p">.</span><span class="n">xx</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">.</span><span class="n">xy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">xz</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">xw</span><span class="o">=</span><span class="n">tx</span><span class="p">;</span>
+<span class="p">.</span><span class="n">yx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">yy</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">.</span><span class="n">yz</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">yw</span><span class="o">=</span><span class="n">ty</span><span class="p">;</span>
+<span class="p">.</span><span class="n">zx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">zy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">zz</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">.</span><span class="n">zw</span><span class="o">=</span><span class="n">tz</span><span class="p">;</span>
+<span class="p">.</span><span class="n">wx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">wy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">wz</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">ww</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_multiply">
+void <code class="descname">c_matrix_multiply</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*result</em>, const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*a</em>, const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*b</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_multiply" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; The address of a 4x4 matrix to store the result in</li>
+<li><strong>a</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>b</strong> &#8211; A 4x4 transformation matrix</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies the two supplied matrices together and stores
+the resulting matrix inside <code class="xref c c-data docutils literal"><span class="pre">result</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is possible to multiply the <code class="xref c c-data docutils literal"><span class="pre">a</span></code> matrix in-place, so
+<code class="xref c c-data docutils literal"><span class="pre">result</span></code> can be equal to <code class="xref c c-data docutils literal"><span class="pre">a</span></code> but can&#8217;t be equal to <code class="xref c c-data docutils literal"><span class="pre">b</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_rotate">
+void <code class="descname">c_matrix_rotate</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;angle</em>, float<em>&nbsp;x</em>, float<em>&nbsp;y</em>, float<em>&nbsp;z</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_rotate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>angle</strong> &#8211; The angle you want to rotate in degrees</li>
+<li><strong>x</strong> &#8211; X component of your rotation vector</li>
+<li><strong>y</strong> &#8211; Y component of your rotation vector</li>
+<li><strong>z</strong> &#8211; Z component of your rotation vector</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with a rotation matrix that applies a rotation
+of <code class="xref c c-data docutils literal"><span class="pre">angle</span></code> degrees around the specified 3D vector.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_rotate_quaternion">
+void <code class="descname">c_matrix_rotate_quaternion</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, const <a class="reference internal" href="quaternion.html#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_rotate_quaternion" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>quaternion</strong> &#8211; A quaternion describing a rotation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with a rotation transformation described by the
+given <a class="reference internal" href="quaternion.html#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_rotate_euler">
+void <code class="descname">c_matrix_rotate_euler</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, const <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_rotate_euler" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>euler</strong> &#8211; A euler describing a rotation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with a rotation transformation described by the
+given <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_translate">
+void <code class="descname">c_matrix_translate</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;x</em>, float<em>&nbsp;y</em>, float<em>&nbsp;z</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_translate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>x</strong> &#8211; The X translation you want to apply</li>
+<li><strong>y</strong> &#8211; The Y translation you want to apply</li>
+<li><strong>z</strong> &#8211; The Z translation you want to apply</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with a transform matrix that translates along
+the X, Y and Z axis.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_scale">
+void <code class="descname">c_matrix_scale</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;sx</em>, float<em>&nbsp;sy</em>, float<em>&nbsp;sz</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_scale" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>sx</strong> &#8211; The X scale factor</li>
+<li><strong>sy</strong> &#8211; The Y scale factor</li>
+<li><strong>sz</strong> &#8211; The Z scale factor</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with a transform matrix that scales along the X,
+Y and Z axis.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_look_at">
+void <code class="descname">c_matrix_look_at</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;eye_position_x</em>, float<em>&nbsp;eye_position_y</em>, float<em>&nbsp;eye_position_z</em>, float<em>&nbsp;object_x</em>, float<em>&nbsp;object_y</em>, float<em>&nbsp;object_z</em>, float<em>&nbsp;world_up_x</em>, float<em>&nbsp;world_up_y</em>, float<em>&nbsp;world_up_z</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_look_at" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>eye_position_x</strong> &#8211; The X coordinate to look from</li>
+<li><strong>eye_position_y</strong> &#8211; The Y coordinate to look from</li>
+<li><strong>eye_position_z</strong> &#8211; The Z coordinate to look from</li>
+<li><strong>object_x</strong> &#8211; The X coordinate of the object to look at</li>
+<li><strong>object_y</strong> &#8211; The Y coordinate of the object to look at</li>
+<li><strong>object_z</strong> &#8211; The Z coordinate of the object to look at</li>
+<li><strong>world_up_x</strong> &#8211; The X component of the world&#8217;s up direction vector</li>
+<li><strong>world_up_y</strong> &#8211; The Y component of the world&#8217;s up direction vector</li>
+<li><strong>world_up_z</strong> &#8211; The Z component of the world&#8217;s up direction vector</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Applies a view transform <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> that positions the camera at
+the coordinate (<code class="xref c c-data docutils literal"><span class="pre">eye_position_x</span></code>, <code class="xref c c-data docutils literal"><span class="pre">eye_position_y</span></code>, <code class="xref c c-data docutils literal"><span class="pre">eye_position_z</span></code>)
+looking towards an object at the coordinate (<code class="xref c c-data docutils literal"><span class="pre">object_x</span></code>, <code class="xref c c-data docutils literal"><span class="pre">object_y</span></code>,
+<code class="xref c c-data docutils literal"><span class="pre">object_z</span></code>). The top of the camera is aligned to the given world up
+vector, which is normally simply (0, 1, 0) to map up to the
+positive direction of the y axis.</p>
+<p>Because there is a lot of missleading documentation online for
+gluLookAt regarding the up vector we want to try and be a bit
+clearer here.</p>
+<p>The up vector should simply be relative to your world coordinates
+and does not need to change as you move the eye and object
+positions.  Many online sources may claim that the up vector needs
+to be perpendicular to the vector between the eye and object
+position (partly because the man page is somewhat missleading) but
+that is not necessary for this function.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You should never look directly along the world-up
+vector.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is assumed you are using a typical projection matrix where
+your origin maps to the center of your viewport.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Almost always when you use this function it should be the first
+transform applied to a new modelview transform</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_frustum">
+void <code class="descname">c_matrix_frustum</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;left</em>, float<em>&nbsp;right</em>, float<em>&nbsp;bottom</em>, float<em>&nbsp;top</em>, float<em>&nbsp;z_near</em>, float<em>&nbsp;z_far</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_frustum" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>left</strong> &#8211; X position of the left clipping plane where it
+intersects the near clipping plane</li>
+<li><strong>right</strong> &#8211; X position of the right clipping plane where it
+intersects the near clipping plane</li>
+<li><strong>bottom</strong> &#8211; Y position of the bottom clipping plane where it
+intersects the near clipping plane</li>
+<li><strong>top</strong> &#8211; Y position of the top clipping plane where it intersects
+the near clipping plane</li>
+<li><strong>z_near</strong> &#8211; The distance to the near clipping plane (Must be positive)</li>
+<li><strong>z_far</strong> &#8211; The distance to the far clipping plane (Must be positive)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> by the given frustum perspective matrix.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_perspective">
+void <code class="descname">c_matrix_perspective</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;fov_y</em>, float<em>&nbsp;aspect</em>, float<em>&nbsp;z_near</em>, float<em>&nbsp;z_far</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_perspective" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>fov_y</strong> &#8211; Vertical field of view angle in degrees.</li>
+<li><strong>aspect</strong> &#8211; The (width over height) aspect ratio for display</li>
+<li><strong>z_near</strong> &#8211; The distance to the near clipping plane (Must be positive,
+and must not be 0)</li>
+<li><strong>z_far</strong> &#8211; The distance to the far clipping plane (Must be positive)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> by the described perspective matrix</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You should be careful not to have to great a <code class="xref c c-data docutils literal"><span class="pre">z_far</span></code> / <code class="xref c c-data docutils literal"><span class="pre">z_near</span></code>
+ratio since that will reduce the effectiveness of depth testing
+since there wont be enough precision to identify the depth of
+objects near to each other.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_orthographic">
+void <code class="descname">c_matrix_orthographic</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;x_1</em>, float<em>&nbsp;y_1</em>, float<em>&nbsp;x_2</em>, float<em>&nbsp;y_2</em>, float<em>&nbsp;near</em>, float<em>&nbsp;far</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_orthographic" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>x_1</strong> &#8211; The x coordinate for the first vertical clipping plane</li>
+<li><strong>y_1</strong> &#8211; The y coordinate for the first horizontal clipping plane</li>
+<li><strong>x_2</strong> &#8211; The x coordinate for the second vertical clipping plane</li>
+<li><strong>y_2</strong> &#8211; The y coordinate for the second horizontal clipping plane</li>
+<li><strong>near</strong> &#8211; The <em>distance</em> to the near clipping
+plane (will be <em>negative</em> if the plane is
+behind the viewer)</li>
+<li><strong>far</strong> &#8211; The <em>distance</em> to the far clipping
+plane (will be <em>negative</em> if the plane is
+behind the viewer)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> by a parallel projection matrix.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_view_2d_in_frustum">
+void <code class="descname">c_matrix_view_2d_in_frustum</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;left</em>, float<em>&nbsp;right</em>, float<em>&nbsp;bottom</em>, float<em>&nbsp;top</em>, float<em>&nbsp;z_near</em>, float<em>&nbsp;z_2d</em>, float<em>&nbsp;width_2d</em>, float<em>&nbsp;height_2d</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_view_2d_in_frustum" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>left</strong> &#8211; coord of left vertical clipping plane</li>
+<li><strong>right</strong> &#8211; coord of right vertical clipping plane</li>
+<li><strong>bottom</strong> &#8211; coord of bottom horizontal clipping plane</li>
+<li><strong>top</strong> &#8211; coord of top horizontal clipping plane</li>
+<li><strong>z_near</strong> &#8211; The distance to the near clip plane. Never pass 0 and always pass
+a positive number.</li>
+<li><strong>z_2d</strong> &#8211; The distance to the 2D plane. (Should always be positive and
+be between <code class="xref c c-data docutils literal"><span class="pre">z_near</span></code> and the z_far value that was passed to
+c_matrix_frustum())</li>
+<li><strong>width_2d</strong> &#8211; The width of the 2D coordinate system</li>
+<li><strong>height_2d</strong> &#8211; The height of the 2D coordinate system</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> by a view transform that maps the 2D coordinates
+(0,0) top left and (<code class="xref c c-data docutils literal"><span class="pre">width_2d</span></code>,:c:data:<cite>height_2d</cite>) bottom right the full viewport
+size. Geometry at a depth of 0 will now lie on this 2D plane.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">this doesn&#8217;t multiply the matrix by any projection matrix,
+but it assumes you have a perspective projection as defined by
+passing the corresponding arguments to c_matrix_frustum().</p>
+</div>
+<p>Toolkits such as Clutter that mix 2D and 3D drawing can use this to
+create a 2D coordinate system within a 3D perspective projected
+view frustum.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_view_2d_in_perspective">
+void <code class="descname">c_matrix_view_2d_in_perspective</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;fov_y</em>, float<em>&nbsp;aspect</em>, float<em>&nbsp;z_near</em>, float<em>&nbsp;z_2d</em>, float<em>&nbsp;width_2d</em>, float<em>&nbsp;height_2d</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_view_2d_in_perspective" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fov_y</strong> &#8211; A field of view angle for the Y axis</li>
+<li><strong>aspect</strong> &#8211; The ratio of width to height determining the field of view angle
+for the x axis.</li>
+<li><strong>z_near</strong> &#8211; The distance to the near clip plane. Never pass 0 and always pass
+a positive number.</li>
+<li><strong>z_2d</strong> &#8211; The distance to the 2D plane. (Should always be positive and
+be between <code class="xref c c-data docutils literal"><span class="pre">z_near</span></code> and the z_far value that was passed to
+c_matrix_frustum())</li>
+<li><strong>width_2d</strong> &#8211; The width of the 2D coordinate system</li>
+<li><strong>height_2d</strong> &#8211; The height of the 2D coordinate system</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> by a view transform that maps the 2D coordinates
+(0,0) top left and (<code class="xref c c-data docutils literal"><span class="pre">width_2d</span></code>,:c:data:<cite>height_2d</cite>) bottom right the full viewport
+size. Geometry at a depth of 0 will now lie on this 2D plane.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">this doesn&#8217;t multiply the matrix by any projection matrix,
+but it assumes you have a perspective projection as defined by
+passing the corresponding arguments to c_matrix_perspective().</p>
+</div>
+<p>Toolkits such as Clutter that mix 2D and 3D drawing can use this to
+create a 2D coordinate system within a 3D perspective projected
+view frustum.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_init_from_array">
+void <code class="descname">c_matrix_init_from_array</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, const float<em>&nbsp;*array</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_init_from_array" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>array</strong> &#8211; A linear array of 16 floats (column-major order)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with the contents of <code class="xref c c-data docutils literal"><span class="pre">array</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_get_array">
+const float *<code class="descname">c_matrix_get_array</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_get_array" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Casts <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> to a float array which can be directly passed to OpenGL.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a pointer to the float array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_init_from_quaternion">
+void <code class="descname">c_matrix_init_from_quaternion</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, const <a class="reference internal" href="quaternion.html#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_init_from_quaternion" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="quaternion.html#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> from a <a class="reference internal" href="quaternion.html#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> rotation.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_init_from_euler">
+void <code class="descname">c_matrix_init_from_euler</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, const <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_init_from_euler" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>euler</strong> &#8211; A <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> from a <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> rotation.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_equal">
+_Bool <code class="descname">c_matrix_equal</code><span class="sig-paren">(</span>const void<em>&nbsp;*v1</em>, const void<em>&nbsp;*v2</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_equal" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>v1</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>v2</strong> &#8211; A 4x4 transformation matrix</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compares two matrices to see if they represent the same
+transformation. Although internally the matrices may have different
+annotations associated with them and may potentially have a cached
+inverse matrix these are not considered in the comparison.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_copy">
+<a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a> *<code class="descname">c_matrix_copy</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_copy" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix you want to copy</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Allocates a new <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a> on the heap and initializes it with
+the same values as <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">(transfer full): A newly allocated <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a> which</td>
+</tr>
+</tbody>
+</table>
+<p>should be freed using c_matrix_free()</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_free">
+void <code class="descname">c_matrix_free</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_free" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix you want to free</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Frees a <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a> that was previously allocated via a call to
+c_matrix_copy().</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_get_inverse">
+_Bool <code class="descname">c_matrix_get_inverse</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*inverse</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_get_inverse" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>inverse</strong> &#8211; (out): The destination for a 4x4 inverse transformation matrix</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Gets the inverse transform of a given matrix and uses it to initialize
+a new <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Although the first parameter is annotated as const to indicate
+that the transform it represents isn&#8217;t modified this function may
+technically save a copy of the inverse transform within the given
+<a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a> so that subsequent requests for the inverse transform may
+avoid costly inversion calculations.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">true</span></code> if the inverse was successfully calculated or <code class="docutils literal"><span class="pre">false</span></code>
+for degenerate transformations that can&#8217;t be inverted (in this case the
+<code class="xref c c-data docutils literal"><span class="pre">inverse</span></code> matrix will simply be initialized with the identity matrix)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_transform_point">
+void <code class="descname">c_matrix_transform_point</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;*x</em>, float<em>&nbsp;*y</em>, float<em>&nbsp;*z</em>, float<em>&nbsp;*w</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_transform_point" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>x</strong> &#8211; (inout): The X component of your points position</li>
+<li><strong>y</strong> &#8211; (inout): The Y component of your points position</li>
+<li><strong>z</strong> &#8211; (inout): The Z component of your points position</li>
+<li><strong>w</strong> &#8211; (inout): The W component of your points position</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Transforms a point whos position is given and returned as four float
+components.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_transform_points">
+void <code class="descname">c_matrix_transform_points</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, int<em>&nbsp;n_components</em>, size_t<em>&nbsp;stride_in</em>, const void<em>&nbsp;*points_in</em>, size_t<em>&nbsp;stride_out</em>, void<em>&nbsp;*points_out</em>, int<em>&nbsp;n_points</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_transform_points" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A transformation matrix</li>
+<li><strong>n_components</strong> &#8211; The number of position components for each input point.
+(either 2 or 3)</li>
+<li><strong>stride_in</strong> &#8211; The stride in bytes between input points.</li>
+<li><strong>points_in</strong> &#8211; A pointer to the first component of the first input point.</li>
+<li><strong>stride_out</strong> &#8211; The stride in bytes between output points.</li>
+<li><strong>points_out</strong> &#8211; A pointer to the first component of the first output point.</li>
+<li><strong>n_points</strong> &#8211; The number of points to transform.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Transforms an array of input points and writes the result to
+another array of output points. The input points can either have 2
+or 3 components each. The output points always have 3 components.
+The output array can simply point to the input array to do the
+transform in-place.</p>
+<p>If you need to transform 4 component points see
+c_matrix_project_points().</p>
+<p>Here&#8217;s an example with differing input/output strides:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+  <span class="kt">float</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">MyInVertex</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+  <span class="kt">uint8_t</span> <span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">MyOutVertex</span><span class="p">;</span>
+<span class="n">MyInVertex</span> <span class="n">vertices</span><span class="p">[</span><span class="n">N_VERTICES</span><span class="p">];</span>
+<span class="n">MyOutVertex</span> <span class="n">results</span><span class="p">[</span><span class="n">N_VERTICES</span><span class="p">];</span>
+<span class="kt">c_matrix_t</span> <span class="n">matrix</span><span class="p">;</span>
+
+<span class="n">my_load_vertices</span> <span class="p">(</span><span class="n">vertices</span><span class="p">);</span>
+<span class="n">my_get_matrix</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">matrix</span><span class="p">);</span>
+
+<span class="n">c_matrix_transform_points</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">matrix</span><span class="p">,</span>
+                              <span class="mi">2</span><span class="p">,</span>
+                              <span class="k">sizeof</span> <span class="p">(</span><span class="n">MyInVertex</span><span class="p">),</span>
+                              <span class="o">&amp;</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span>
+                              <span class="k">sizeof</span> <span class="p">(</span><span class="n">MyOutVertex</span><span class="p">),</span>
+                              <span class="o">&amp;</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span>
+                              <span class="n">N_VERTICES</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_project_points">
+void <code class="descname">c_matrix_project_points</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, int<em>&nbsp;n_components</em>, size_t<em>&nbsp;stride_in</em>, const void<em>&nbsp;*points_in</em>, size_t<em>&nbsp;stride_out</em>, void<em>&nbsp;*points_out</em>, int<em>&nbsp;n_points</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_project_points" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A projection matrix</li>
+<li><strong>n_components</strong> &#8211; The number of position components for each input point.
+(either 2, 3 or 4)</li>
+<li><strong>stride_in</strong> &#8211; The stride in bytes between input points.</li>
+<li><strong>points_in</strong> &#8211; A pointer to the first component of the first input point.</li>
+<li><strong>stride_out</strong> &#8211; The stride in bytes between output points.</li>
+<li><strong>points_out</strong> &#8211; A pointer to the first component of the first output point.</li>
+<li><strong>n_points</strong> &#8211; The number of points to transform.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Projects an array of input points and writes the result to another
+array of output points. The input points can either have 2, 3 or 4
+components each. The output points always have 4 components (known
+as homogenous coordinates). The output array can simply point to
+the input array to do the transform in-place.</p>
+<p>Here&#8217;s an example with differing input/output strides:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+  <span class="kt">float</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">MyInVertex</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+  <span class="kt">uint8_t</span> <span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">MyOutVertex</span><span class="p">;</span>
+<span class="n">MyInVertex</span> <span class="n">vertices</span><span class="p">[</span><span class="n">N_VERTICES</span><span class="p">];</span>
+<span class="n">MyOutVertex</span> <span class="n">results</span><span class="p">[</span><span class="n">N_VERTICES</span><span class="p">];</span>
+<span class="kt">c_matrix_t</span> <span class="n">matrix</span><span class="p">;</span>
+
+<span class="n">my_load_vertices</span> <span class="p">(</span><span class="n">vertices</span><span class="p">);</span>
+<span class="n">my_get_matrix</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">matrix</span><span class="p">);</span>
+
+<span class="n">c_matrix_project_points</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">matrix</span><span class="p">,</span>
+                            <span class="mi">2</span><span class="p">,</span>
+                            <span class="k">sizeof</span> <span class="p">(</span><span class="n">MyInVertex</span><span class="p">),</span>
+                            <span class="o">&amp;</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span>
+                            <span class="k">sizeof</span> <span class="p">(</span><span class="n">MyOutVertex</span><span class="p">),</span>
+                            <span class="o">&amp;</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span>
+                            <span class="n">N_VERTICES</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_is_identity">
+_Bool <code class="descname">c_matrix_is_identity</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_is_identity" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Determines if the given matrix is an identity matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">true</span></code> if <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> is an identity matrix else <code class="docutils literal"><span class="pre">false</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_transpose">
+void <code class="descname">c_matrix_transpose</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_transpose" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Replaces <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with its transpose. Ie, every element (i,j) in the
+new matrix is taken from element (j,i) in the old matrix.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_print">
+void <code class="descname">c_matrix_print</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_print" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> (<em>const c_matrix_t *</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_matrix_prefix_print">
+void <code class="descname">c_matrix_prefix_print</code><span class="sig-paren">(</span>const char<em>&nbsp;*prefix</em>, const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_matrix_prefix_print" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prefix</strong> (<em>const char *</em>) &#8211; </li>
+<li><strong>matrix</strong> (<em>const c_matrix_t *</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_init_identity</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Resets matrix to the identity matrix:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="p">.</span><span class="n">xx</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">.</span><span class="n">xy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">xz</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">xw</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="p">.</span><span class="n">yx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">yy</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">.</span><span class="n">yz</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">yw</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="p">.</span><span class="n">zx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">zy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">zz</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">.</span><span class="n">zw</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="p">.</span><span class="n">wx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">wy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">wz</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">ww</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_init_translation</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;tx</em>, float<em>&nbsp;ty</em>, float<em>&nbsp;tz</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>tx</strong> &#8211; x coordinate of the translation vector</li>
+<li><strong>ty</strong> &#8211; y coordinate of the translation vector</li>
+<li><strong>tz</strong> &#8211; z coordinate of the translation vector</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Resets matrix to the (tx, ty, tz) translation matrix:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="p">.</span><span class="n">xx</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">.</span><span class="n">xy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">xz</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">xw</span><span class="o">=</span><span class="n">tx</span><span class="p">;</span>
+<span class="p">.</span><span class="n">yx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">yy</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">.</span><span class="n">yz</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">yw</span><span class="o">=</span><span class="n">ty</span><span class="p">;</span>
+<span class="p">.</span><span class="n">zx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">zy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">zz</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="p">.</span><span class="n">zw</span><span class="o">=</span><span class="n">tz</span><span class="p">;</span>
+<span class="p">.</span><span class="n">wx</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">wy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">wz</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">.</span><span class="n">ww</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_multiply</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*result</em>, const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*a</em>, const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*b</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; The address of a 4x4 matrix to store the result in</li>
+<li><strong>a</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>b</strong> &#8211; A 4x4 transformation matrix</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies the two supplied matrices together and stores
+the resulting matrix inside <code class="xref c c-data docutils literal"><span class="pre">result</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is possible to multiply the <code class="xref c c-data docutils literal"><span class="pre">a</span></code> matrix in-place, so
+<code class="xref c c-data docutils literal"><span class="pre">result</span></code> can be equal to <code class="xref c c-data docutils literal"><span class="pre">a</span></code> but can&#8217;t be equal to <code class="xref c c-data docutils literal"><span class="pre">b</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_rotate</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;angle</em>, float<em>&nbsp;x</em>, float<em>&nbsp;y</em>, float<em>&nbsp;z</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>angle</strong> &#8211; The angle you want to rotate in degrees</li>
+<li><strong>x</strong> &#8211; X component of your rotation vector</li>
+<li><strong>y</strong> &#8211; Y component of your rotation vector</li>
+<li><strong>z</strong> &#8211; Z component of your rotation vector</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with a rotation matrix that applies a rotation
+of <code class="xref c c-data docutils literal"><span class="pre">angle</span></code> degrees around the specified 3D vector.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_rotate_quaternion</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, const <a class="reference internal" href="quaternion.html#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>quaternion</strong> &#8211; A quaternion describing a rotation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with a rotation transformation described by the
+given <a class="reference internal" href="quaternion.html#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_rotate_euler</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, const <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>euler</strong> &#8211; A euler describing a rotation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with a rotation transformation described by the
+given <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_translate</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;x</em>, float<em>&nbsp;y</em>, float<em>&nbsp;z</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>x</strong> &#8211; The X translation you want to apply</li>
+<li><strong>y</strong> &#8211; The Y translation you want to apply</li>
+<li><strong>z</strong> &#8211; The Z translation you want to apply</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with a transform matrix that translates along
+the X, Y and Z axis.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_scale</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;sx</em>, float<em>&nbsp;sy</em>, float<em>&nbsp;sz</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>sx</strong> &#8211; The X scale factor</li>
+<li><strong>sy</strong> &#8211; The Y scale factor</li>
+<li><strong>sz</strong> &#8211; The Z scale factor</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with a transform matrix that scales along the X,
+Y and Z axis.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_look_at</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;eye_position_x</em>, float<em>&nbsp;eye_position_y</em>, float<em>&nbsp;eye_position_z</em>, float<em>&nbsp;object_x</em>, float<em>&nbsp;object_y</em>, float<em>&nbsp;object_z</em>, float<em>&nbsp;world_up_x</em>, float<em>&nbsp;world_up_y</em>, float<em>&nbsp;world_up_z</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>eye_position_x</strong> &#8211; The X coordinate to look from</li>
+<li><strong>eye_position_y</strong> &#8211; The Y coordinate to look from</li>
+<li><strong>eye_position_z</strong> &#8211; The Z coordinate to look from</li>
+<li><strong>object_x</strong> &#8211; The X coordinate of the object to look at</li>
+<li><strong>object_y</strong> &#8211; The Y coordinate of the object to look at</li>
+<li><strong>object_z</strong> &#8211; The Z coordinate of the object to look at</li>
+<li><strong>world_up_x</strong> &#8211; The X component of the world&#8217;s up direction vector</li>
+<li><strong>world_up_y</strong> &#8211; The Y component of the world&#8217;s up direction vector</li>
+<li><strong>world_up_z</strong> &#8211; The Z component of the world&#8217;s up direction vector</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Applies a view transform <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> that positions the camera at
+the coordinate (<code class="xref c c-data docutils literal"><span class="pre">eye_position_x</span></code>, <code class="xref c c-data docutils literal"><span class="pre">eye_position_y</span></code>, <code class="xref c c-data docutils literal"><span class="pre">eye_position_z</span></code>)
+looking towards an object at the coordinate (<code class="xref c c-data docutils literal"><span class="pre">object_x</span></code>, <code class="xref c c-data docutils literal"><span class="pre">object_y</span></code>,
+<code class="xref c c-data docutils literal"><span class="pre">object_z</span></code>). The top of the camera is aligned to the given world up
+vector, which is normally simply (0, 1, 0) to map up to the
+positive direction of the y axis.</p>
+<p>Because there is a lot of missleading documentation online for
+gluLookAt regarding the up vector we want to try and be a bit
+clearer here.</p>
+<p>The up vector should simply be relative to your world coordinates
+and does not need to change as you move the eye and object
+positions.  Many online sources may claim that the up vector needs
+to be perpendicular to the vector between the eye and object
+position (partly because the man page is somewhat missleading) but
+that is not necessary for this function.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You should never look directly along the world-up
+vector.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is assumed you are using a typical projection matrix where
+your origin maps to the center of your viewport.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Almost always when you use this function it should be the first
+transform applied to a new modelview transform</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_frustum</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;left</em>, float<em>&nbsp;right</em>, float<em>&nbsp;bottom</em>, float<em>&nbsp;top</em>, float<em>&nbsp;z_near</em>, float<em>&nbsp;z_far</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>left</strong> &#8211; X position of the left clipping plane where it
+intersects the near clipping plane</li>
+<li><strong>right</strong> &#8211; X position of the right clipping plane where it
+intersects the near clipping plane</li>
+<li><strong>bottom</strong> &#8211; Y position of the bottom clipping plane where it
+intersects the near clipping plane</li>
+<li><strong>top</strong> &#8211; Y position of the top clipping plane where it intersects
+the near clipping plane</li>
+<li><strong>z_near</strong> &#8211; The distance to the near clipping plane (Must be positive)</li>
+<li><strong>z_far</strong> &#8211; The distance to the far clipping plane (Must be positive)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> by the given frustum perspective matrix.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_perspective</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;fov_y</em>, float<em>&nbsp;aspect</em>, float<em>&nbsp;z_near</em>, float<em>&nbsp;z_far</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>fov_y</strong> &#8211; Vertical field of view angle in degrees.</li>
+<li><strong>aspect</strong> &#8211; The (width over height) aspect ratio for display</li>
+<li><strong>z_near</strong> &#8211; The distance to the near clipping plane (Must be positive,
+and must not be 0)</li>
+<li><strong>z_far</strong> &#8211; The distance to the far clipping plane (Must be positive)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> by the described perspective matrix</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You should be careful not to have to great a <code class="xref c c-data docutils literal"><span class="pre">z_far</span></code> / <code class="xref c c-data docutils literal"><span class="pre">z_near</span></code>
+ratio since that will reduce the effectiveness of depth testing
+since there wont be enough precision to identify the depth of
+objects near to each other.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_orthographic</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;x_1</em>, float<em>&nbsp;y_1</em>, float<em>&nbsp;x_2</em>, float<em>&nbsp;y_2</em>, float<em>&nbsp;near</em>, float<em>&nbsp;far</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>x_1</strong> &#8211; The x coordinate for the first vertical clipping plane</li>
+<li><strong>y_1</strong> &#8211; The y coordinate for the first horizontal clipping plane</li>
+<li><strong>x_2</strong> &#8211; The x coordinate for the second vertical clipping plane</li>
+<li><strong>y_2</strong> &#8211; The y coordinate for the second horizontal clipping plane</li>
+<li><strong>near</strong> &#8211; The <em>distance</em> to the near clipping
+plane (will be <em>negative</em> if the plane is
+behind the viewer)</li>
+<li><strong>far</strong> &#8211; The <em>distance</em> to the far clipping
+plane (will be <em>negative</em> if the plane is
+behind the viewer)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> by a parallel projection matrix.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_view_2d_in_frustum</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;left</em>, float<em>&nbsp;right</em>, float<em>&nbsp;bottom</em>, float<em>&nbsp;top</em>, float<em>&nbsp;z_near</em>, float<em>&nbsp;z_2d</em>, float<em>&nbsp;width_2d</em>, float<em>&nbsp;height_2d</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>left</strong> &#8211; coord of left vertical clipping plane</li>
+<li><strong>right</strong> &#8211; coord of right vertical clipping plane</li>
+<li><strong>bottom</strong> &#8211; coord of bottom horizontal clipping plane</li>
+<li><strong>top</strong> &#8211; coord of top horizontal clipping plane</li>
+<li><strong>z_near</strong> &#8211; The distance to the near clip plane. Never pass 0 and always pass
+a positive number.</li>
+<li><strong>z_2d</strong> &#8211; The distance to the 2D plane. (Should always be positive and
+be between <code class="xref c c-data docutils literal"><span class="pre">z_near</span></code> and the z_far value that was passed to
+c_matrix_frustum())</li>
+<li><strong>width_2d</strong> &#8211; The width of the 2D coordinate system</li>
+<li><strong>height_2d</strong> &#8211; The height of the 2D coordinate system</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> by a view transform that maps the 2D coordinates
+(0,0) top left and (<code class="xref c c-data docutils literal"><span class="pre">width_2d</span></code>,:c:data:<cite>height_2d</cite>) bottom right the full viewport
+size. Geometry at a depth of 0 will now lie on this 2D plane.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">this doesn&#8217;t multiply the matrix by any projection matrix,
+but it assumes you have a perspective projection as defined by
+passing the corresponding arguments to c_matrix_frustum().</p>
+</div>
+<p>Toolkits such as Clutter that mix 2D and 3D drawing can use this to
+create a 2D coordinate system within a 3D perspective projected
+view frustum.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_view_2d_in_perspective</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;fov_y</em>, float<em>&nbsp;aspect</em>, float<em>&nbsp;z_near</em>, float<em>&nbsp;z_2d</em>, float<em>&nbsp;width_2d</em>, float<em>&nbsp;height_2d</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fov_y</strong> &#8211; A field of view angle for the Y axis</li>
+<li><strong>aspect</strong> &#8211; The ratio of width to height determining the field of view angle
+for the x axis.</li>
+<li><strong>z_near</strong> &#8211; The distance to the near clip plane. Never pass 0 and always pass
+a positive number.</li>
+<li><strong>z_2d</strong> &#8211; The distance to the 2D plane. (Should always be positive and
+be between <code class="xref c c-data docutils literal"><span class="pre">z_near</span></code> and the z_far value that was passed to
+c_matrix_frustum())</li>
+<li><strong>width_2d</strong> &#8211; The width of the 2D coordinate system</li>
+<li><strong>height_2d</strong> &#8211; The height of the 2D coordinate system</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> by a view transform that maps the 2D coordinates
+(0,0) top left and (<code class="xref c c-data docutils literal"><span class="pre">width_2d</span></code>,:c:data:<cite>height_2d</cite>) bottom right the full viewport
+size. Geometry at a depth of 0 will now lie on this 2D plane.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">this doesn&#8217;t multiply the matrix by any projection matrix,
+but it assumes you have a perspective projection as defined by
+passing the corresponding arguments to c_matrix_perspective().</p>
+</div>
+<p>Toolkits such as Clutter that mix 2D and 3D drawing can use this to
+create a 2D coordinate system within a 3D perspective projected
+view frustum.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_init_from_array</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, const float<em>&nbsp;*array</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>array</strong> &#8211; A linear array of 16 floats (column-major order)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with the contents of <code class="xref c c-data docutils literal"><span class="pre">array</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+const float *<code class="descname">c_matrix_get_array</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Casts <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> to a float array which can be directly passed to OpenGL.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a pointer to the float array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_init_from_quaternion</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, const <a class="reference internal" href="quaternion.html#c.c_quaternion_t" title="c_quaternion_t">c_quaternion_t</a><em>&nbsp;*quaternion</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>quaternion</strong> &#8211; A <a class="reference internal" href="quaternion.html#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> from a <a class="reference internal" href="quaternion.html#c.c_quaternion_t" title="c_quaternion_t"><code class="xref c c-type docutils literal"><span class="pre">c_quaternion_t</span></code></a> rotation.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_init_from_euler</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, const <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t">c_euler_t</a><em>&nbsp;*euler</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>euler</strong> &#8211; A <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> from a <a class="reference internal" href="euler.html#c.c_euler_t" title="c_euler_t"><code class="xref c c-type docutils literal"><span class="pre">c_euler_t</span></code></a> rotation.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+_Bool <code class="descname">c_matrix_equal</code><span class="sig-paren">(</span>const void<em>&nbsp;*v1</em>, const void<em>&nbsp;*v2</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>v1</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>v2</strong> &#8211; A 4x4 transformation matrix</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compares two matrices to see if they represent the same
+transformation. Although internally the matrices may have different
+annotations associated with them and may potentially have a cached
+inverse matrix these are not considered in the comparison.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a> *<code class="descname">c_matrix_copy</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix you want to copy</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Allocates a new <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a> on the heap and initializes it with
+the same values as <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">(transfer full): A newly allocated <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a> which</td>
+</tr>
+</tbody>
+</table>
+<p>should be freed using c_matrix_free()</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_free</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix you want to free</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Frees a <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a> that was previously allocated via a call to
+c_matrix_copy().</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+_Bool <code class="descname">c_matrix_get_inverse</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*inverse</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>inverse</strong> &#8211; (out): The destination for a 4x4 inverse transformation matrix</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Gets the inverse transform of a given matrix and uses it to initialize
+a new <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Although the first parameter is annotated as const to indicate
+that the transform it represents isn&#8217;t modified this function may
+technically save a copy of the inverse transform within the given
+<a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a> so that subsequent requests for the inverse transform may
+avoid costly inversion calculations.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">true</span></code> if the inverse was successfully calculated or <code class="docutils literal"><span class="pre">false</span></code>
+for degenerate transformations that can&#8217;t be inverted (in this case the
+<code class="xref c c-data docutils literal"><span class="pre">inverse</span></code> matrix will simply be initialized with the identity matrix)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_transform_point</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, float<em>&nbsp;*x</em>, float<em>&nbsp;*y</em>, float<em>&nbsp;*z</em>, float<em>&nbsp;*w</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A 4x4 transformation matrix</li>
+<li><strong>x</strong> &#8211; (inout): The X component of your points position</li>
+<li><strong>y</strong> &#8211; (inout): The Y component of your points position</li>
+<li><strong>z</strong> &#8211; (inout): The Z component of your points position</li>
+<li><strong>w</strong> &#8211; (inout): The W component of your points position</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Transforms a point whos position is given and returned as four float
+components.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_transform_points</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, int<em>&nbsp;n_components</em>, size_t<em>&nbsp;stride_in</em>, const void<em>&nbsp;*points_in</em>, size_t<em>&nbsp;stride_out</em>, void<em>&nbsp;*points_out</em>, int<em>&nbsp;n_points</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A transformation matrix</li>
+<li><strong>n_components</strong> &#8211; The number of position components for each input point.
+(either 2 or 3)</li>
+<li><strong>stride_in</strong> &#8211; The stride in bytes between input points.</li>
+<li><strong>points_in</strong> &#8211; A pointer to the first component of the first input point.</li>
+<li><strong>stride_out</strong> &#8211; The stride in bytes between output points.</li>
+<li><strong>points_out</strong> &#8211; A pointer to the first component of the first output point.</li>
+<li><strong>n_points</strong> &#8211; The number of points to transform.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Transforms an array of input points and writes the result to
+another array of output points. The input points can either have 2
+or 3 components each. The output points always have 3 components.
+The output array can simply point to the input array to do the
+transform in-place.</p>
+<p>If you need to transform 4 component points see
+c_matrix_project_points().</p>
+<p>Here&#8217;s an example with differing input/output strides:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+  <span class="kt">float</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">MyInVertex</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+  <span class="kt">uint8_t</span> <span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">MyOutVertex</span><span class="p">;</span>
+<span class="n">MyInVertex</span> <span class="n">vertices</span><span class="p">[</span><span class="n">N_VERTICES</span><span class="p">];</span>
+<span class="n">MyOutVertex</span> <span class="n">results</span><span class="p">[</span><span class="n">N_VERTICES</span><span class="p">];</span>
+<span class="kt">c_matrix_t</span> <span class="n">matrix</span><span class="p">;</span>
+
+<span class="n">my_load_vertices</span> <span class="p">(</span><span class="n">vertices</span><span class="p">);</span>
+<span class="n">my_get_matrix</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">matrix</span><span class="p">);</span>
+
+<span class="n">c_matrix_transform_points</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">matrix</span><span class="p">,</span>
+                              <span class="mi">2</span><span class="p">,</span>
+                              <span class="k">sizeof</span> <span class="p">(</span><span class="n">MyInVertex</span><span class="p">),</span>
+                              <span class="o">&amp;</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span>
+                              <span class="k">sizeof</span> <span class="p">(</span><span class="n">MyOutVertex</span><span class="p">),</span>
+                              <span class="o">&amp;</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span>
+                              <span class="n">N_VERTICES</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_project_points</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em>, int<em>&nbsp;n_components</em>, size_t<em>&nbsp;stride_in</em>, const void<em>&nbsp;*points_in</em>, size_t<em>&nbsp;stride_out</em>, void<em>&nbsp;*points_out</em>, int<em>&nbsp;n_points</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A projection matrix</li>
+<li><strong>n_components</strong> &#8211; The number of position components for each input point.
+(either 2, 3 or 4)</li>
+<li><strong>stride_in</strong> &#8211; The stride in bytes between input points.</li>
+<li><strong>points_in</strong> &#8211; A pointer to the first component of the first input point.</li>
+<li><strong>stride_out</strong> &#8211; The stride in bytes between output points.</li>
+<li><strong>points_out</strong> &#8211; A pointer to the first component of the first output point.</li>
+<li><strong>n_points</strong> &#8211; The number of points to transform.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Projects an array of input points and writes the result to another
+array of output points. The input points can either have 2, 3 or 4
+components each. The output points always have 4 components (known
+as homogenous coordinates). The output array can simply point to
+the input array to do the transform in-place.</p>
+<p>Here&#8217;s an example with differing input/output strides:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+  <span class="kt">float</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">MyInVertex</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+  <span class="kt">uint8_t</span> <span class="n">r</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">MyOutVertex</span><span class="p">;</span>
+<span class="n">MyInVertex</span> <span class="n">vertices</span><span class="p">[</span><span class="n">N_VERTICES</span><span class="p">];</span>
+<span class="n">MyOutVertex</span> <span class="n">results</span><span class="p">[</span><span class="n">N_VERTICES</span><span class="p">];</span>
+<span class="kt">c_matrix_t</span> <span class="n">matrix</span><span class="p">;</span>
+
+<span class="n">my_load_vertices</span> <span class="p">(</span><span class="n">vertices</span><span class="p">);</span>
+<span class="n">my_get_matrix</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">matrix</span><span class="p">);</span>
+
+<span class="n">c_matrix_project_points</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">matrix</span><span class="p">,</span>
+                            <span class="mi">2</span><span class="p">,</span>
+                            <span class="k">sizeof</span> <span class="p">(</span><span class="n">MyInVertex</span><span class="p">),</span>
+                            <span class="o">&amp;</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span>
+                            <span class="k">sizeof</span> <span class="p">(</span><span class="n">MyOutVertex</span><span class="p">),</span>
+                            <span class="o">&amp;</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span>
+                            <span class="n">N_VERTICES</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt>
+_Bool <code class="descname">c_matrix_is_identity</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Determines if the given matrix is an identity matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">true</span></code> if <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> is an identity matrix else <code class="docutils literal"><span class="pre">false</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_transpose</code><span class="sig-paren">(</span><a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> &#8211; A <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t"><code class="xref c c-type docutils literal"><span class="pre">c_matrix_t</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Replaces <code class="xref c c-data docutils literal"><span class="pre">matrix</span></code> with its transpose. Ie, every element (i,j) in the
+new matrix is taken from element (j,i) in the old matrix.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_print</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>matrix</strong> (<em>const c_matrix_t *</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_matrix_prefix_print</code><span class="sig-paren">(</span>const char<em>&nbsp;*prefix</em>, const <a class="reference internal" href="#c.c_matrix_t" title="c_matrix_t">c_matrix_t</a><em>&nbsp;*matrix</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prefix</strong> (<em>const char *</em>) &#8211; </li>
+<li><strong>matrix</strong> (<em>const c_matrix_t *</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="euler.html" class="btn btn-neutral float-right" title="Euler" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="vectors.html" class="btn btn-neutral" title="Vectors" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Robert Bragg.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

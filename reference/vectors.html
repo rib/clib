@@ -1,0 +1,1012 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Vectors &mdash; Clib 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Clib 1.0.0 documentation" href="../index.html"/>
+        <link rel="next" title="Matrices" href="matrices.html"/>
+        <link rel="prev" title="Api Reference" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../index.html" class="icon icon-home"> Clib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Api Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matrices.html">Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euler.html">Euler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quaternion.html">Quaternions</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Clib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Vectors</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/reference/vectors.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="vectors">
+<span id="vectors-api"></span><h1>Vectors<a class="headerlink" href="#vectors" title="Permalink to this headline">¶</a></h1>
+<p>API for handling single precision float vectors.</p>
+<p>This exposes a utility API that can be used for basic manipulation of 3
+component float vectors.</p>
+<dl class="function">
+<dt id="c.c_vector3_init">
+void <code class="descname">c_vector3_init</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em>, float<em>&nbsp;x</em>, float<em>&nbsp;y</em>, float<em>&nbsp;z</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_init" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to initialize</li>
+<li><strong>x</strong> &#8211; The x component</li>
+<li><strong>y</strong> &#8211; The y component</li>
+<li><strong>z</strong> &#8211; The z component</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a 3 component, single precision float vector which can
+then be manipulated with the c_vector convenience APIs. Vectors
+can also be used in places where a &#8220;point&#8221; is often desired.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_init_zero">
+void <code class="descname">c_vector3_init_zero</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_init_zero" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to initialize</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a 3 component, single precision float vector with zero
+for each component.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_equal">
+_Bool <code class="descname">c_vector3_equal</code><span class="sig-paren">(</span>const void<em>&nbsp;*v1</em>, const void<em>&nbsp;*v2</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_equal" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>v1</strong> &#8211; The first 3 component vector you want to compare</li>
+<li><strong>v2</strong> &#8211; The second 3 component vector you want to compare</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compares the components of two vectors and returns true if they are
+the same.</p>
+<p>The comparison of the components is done with the &#8216;==&#8217; operator
+such that -0 is considered equal to 0, but otherwise there is no
+fuzziness such as an epsilon to consider vectors that are
+essentially identical except for some minor precision error
+differences due to the way they have been manipulated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">true if the vectors are equal else false.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_equal_with_epsilon">
+_Bool <code class="descname">c_vector3_equal_with_epsilon</code><span class="sig-paren">(</span>const float<em>&nbsp;*vector0</em>, const float<em>&nbsp;*vector1</em>, float<em>&nbsp;epsilon</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_equal_with_epsilon" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector0</strong> &#8211; The first 3 component vector you want to compare</li>
+<li><strong>vector1</strong> &#8211; The second 3 component vector you want to compare</li>
+<li><strong>epsilon</strong> &#8211; The allowable difference between components to still be
+considered equal</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compares the components of two vectors using the given epsilon and
+returns true if they are the same, using an internal epsilon for
+comparing the floats.</p>
+<p>Each component is compared against the epsilon value in this way:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">fabsf</span> <span class="p">(</span><span class="n">vector0</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">-</span> <span class="n">vector1</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">epsilon</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">true if the vectors are equal else false.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_copy">
+float *<code class="descname">c_vector3_copy</code><span class="sig-paren">(</span>const float<em>&nbsp;*vector</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_copy" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to copy</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Allocates a new 3 component float vector on the heap initializing
+the components from the given <code class="xref c c-data docutils literal"><span class="pre">vector</span></code> and returns a pointer to the
+newly allocated vector. You should free the memory using
+c_vector3_free()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A newly allocated 3 component float vector</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_free">
+void <code class="descname">c_vector3_free</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_free" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component you want to free</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Frees a 3 component vector that was previously allocated with
+c_vector3_copy()</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_invert">
+void <code class="descname">c_vector3_invert</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_invert" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to manipulate</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Inverts/negates all the components of the given <code class="xref c c-data docutils literal"><span class="pre">vector</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_add">
+void <code class="descname">c_vector3_add</code><span class="sig-paren">(</span>float<em>&nbsp;*result</em>, const float<em>&nbsp;*a</em>, const float<em>&nbsp;*b</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_add" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; Where you want the result written</li>
+<li><strong>a</strong> &#8211; The first vector operand</li>
+<li><strong>b</strong> &#8211; The second vector operand</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds each of the corresponding components in vectors <code class="xref c c-data docutils literal"><span class="pre">a</span></code> and <code class="xref c c-data docutils literal"><span class="pre">b</span></code>
+storing the results in <code class="xref c c-data docutils literal"><span class="pre">result</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_subtract">
+void <code class="descname">c_vector3_subtract</code><span class="sig-paren">(</span>float<em>&nbsp;*result</em>, const float<em>&nbsp;*a</em>, const float<em>&nbsp;*b</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_subtract" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; Where you want the result written</li>
+<li><strong>a</strong> &#8211; The first vector operand</li>
+<li><strong>b</strong> &#8211; The second vector operand</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Subtracts each of the corresponding components in vector <code class="xref c c-data docutils literal"><span class="pre">b</span></code> from
+<code class="xref c c-data docutils literal"><span class="pre">a</span></code> storing the results in <code class="xref c c-data docutils literal"><span class="pre">result</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_multiply_scalar">
+void <code class="descname">c_vector3_multiply_scalar</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em>, float<em>&nbsp;scalar</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_multiply_scalar" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to manipulate</li>
+<li><strong>scalar</strong> &#8211; The scalar you want to multiply the vector components by</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies each of the <code class="xref c c-data docutils literal"><span class="pre">vector</span></code> components by the given scalar.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_divide_scalar">
+void <code class="descname">c_vector3_divide_scalar</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em>, float<em>&nbsp;scalar</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_divide_scalar" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to manipulate</li>
+<li><strong>scalar</strong> &#8211; The scalar you want to divide the vector components by</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Divides each of the <code class="xref c c-data docutils literal"><span class="pre">vector</span></code> components by the given scalar.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_normalize">
+void <code class="descname">c_vector3_normalize</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_normalize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to manipulate</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Updates the vector so it is a &#8220;unit vector&#8221; such that the
+:c:data:<a href="#id1"><span class="problematic" id="id2">`</span></a>vector`&lt;!&#8211; &#8211;&gt;s magnitude or length is equal to 1.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It&#8217;s safe to use this function with the [0, 0, 0] vector, it will not
+try to divide components by 0 (its norm) and will leave the vector
+untouched.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_magnitude">
+float <code class="descname">c_vector3_magnitude</code><span class="sig-paren">(</span>const float<em>&nbsp;*vector</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_magnitude" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want the magnitude for</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Calculates the scalar magnitude or length of <code class="xref c c-data docutils literal"><span class="pre">vector</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The magnitude of <code class="xref c c-data docutils literal"><span class="pre">vector</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_cross_product">
+void <code class="descname">c_vector3_cross_product</code><span class="sig-paren">(</span>float<em>&nbsp;*result</em>, const float<em>&nbsp;*u</em>, const float<em>&nbsp;*v</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_cross_product" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; Where you want the result written</li>
+<li><strong>u</strong> &#8211; Your first 3 component vector</li>
+<li><strong>v</strong> &#8211; Your second 3 component vector</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Calculates the cross product between the two vectors <code class="xref c c-data docutils literal"><span class="pre">u</span></code> and <code class="xref c c-data docutils literal"><span class="pre">v</span></code>.</p>
+<p>The cross product is a vector perpendicular to both <code class="xref c c-data docutils literal"><span class="pre">u</span></code> and <code class="xref c c-data docutils literal"><span class="pre">v</span></code>. This
+can be useful for calculating the normal of a polygon by creating
+two vectors in its plane using the polygons vertices and taking
+their cross product.</p>
+<p>If the two vectors are parallel then the cross product is 0.</p>
+<p>You can use a right hand rule to determine which direction the
+perpendicular vector will point: If you place the two vectors tail,
+to tail and imagine grabbing the perpendicular line that extends
+through the common tail with your right hand such that you fingers
+rotate in the direction from <code class="xref c c-data docutils literal"><span class="pre">u</span></code> to <code class="xref c c-data docutils literal"><span class="pre">v</span></code> then the resulting vector
+points along your extended thumb.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The cross product between two vectors <code class="xref c c-data docutils literal"><span class="pre">u</span></code> and <code class="xref c c-data docutils literal"><span class="pre">v</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_dot_product">
+float <code class="descname">c_vector3_dot_product</code><span class="sig-paren">(</span>const float<em>&nbsp;*a</em>, const float<em>&nbsp;*b</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_dot_product" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> &#8211; Your first 3 component vector</li>
+<li><strong>b</strong> &#8211; Your second 3 component vector</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Calculates the dot product of the two 3 component vectors. This
+can be used to determine the magnitude of one vector projected onto
+another. (for example a surface normal)</p>
+<p>For example if you have a polygon with a given normal vector and
+some other point for which you want to calculate its distance from
+the polygon, you can create a vector between one of the polygon
+vertices and that point and use the dot product to calculate the
+magnitude for that vector but projected onto the normal of the
+polygon. This way you don&#8217;t just get the distance from the point to
+the edge of the polygon you get the distance from the point to the
+nearest part of the polygon.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you don&#8217;t use a unit length normal in the above example
+then you would then also have to divide the result by the magnitude
+of the normal</p>
+</div>
+<p>The dot product is calculated as:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">*</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">+</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">*</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">+</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">z</span> <span class="o">*</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For reference, the dot product can also be calculated from the
+angle between two vectors as:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="o">|</span><span class="n">a</span><span class="o">||</span><span class="n">b</span><span class="o">|</span><span class="n">cos𝜃</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The dot product of two vectors.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.c_vector3_distance">
+float <code class="descname">c_vector3_distance</code><span class="sig-paren">(</span>const float<em>&nbsp;*a</em>, const float<em>&nbsp;*b</em><span class="sig-paren">)</span><a class="headerlink" href="#c.c_vector3_distance" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> &#8211; The first point</li>
+<li><strong>b</strong> &#8211; The second point</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If you consider the two given vectors as (x,y,z) points instead
+then this will compute the distance between those two points.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The distance between two points given as 3 component
+vectors.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_vector3_init</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em>, float<em>&nbsp;x</em>, float<em>&nbsp;y</em>, float<em>&nbsp;z</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to initialize</li>
+<li><strong>x</strong> &#8211; The x component</li>
+<li><strong>y</strong> &#8211; The y component</li>
+<li><strong>z</strong> &#8211; The z component</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a 3 component, single precision float vector which can
+then be manipulated with the c_vector convenience APIs. Vectors
+can also be used in places where a &#8220;point&#8221; is often desired.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_vector3_init_zero</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to initialize</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Initializes a 3 component, single precision float vector with zero
+for each component.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+_Bool <code class="descname">c_vector3_equal</code><span class="sig-paren">(</span>const void<em>&nbsp;*v1</em>, const void<em>&nbsp;*v2</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>v1</strong> &#8211; The first 3 component vector you want to compare</li>
+<li><strong>v2</strong> &#8211; The second 3 component vector you want to compare</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compares the components of two vectors and returns true if they are
+the same.</p>
+<p>The comparison of the components is done with the &#8216;==&#8217; operator
+such that -0 is considered equal to 0, but otherwise there is no
+fuzziness such as an epsilon to consider vectors that are
+essentially identical except for some minor precision error
+differences due to the way they have been manipulated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">true if the vectors are equal else false.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+_Bool <code class="descname">c_vector3_equal_with_epsilon</code><span class="sig-paren">(</span>const float<em>&nbsp;*vector0</em>, const float<em>&nbsp;*vector1</em>, float<em>&nbsp;epsilon</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector0</strong> &#8211; The first 3 component vector you want to compare</li>
+<li><strong>vector1</strong> &#8211; The second 3 component vector you want to compare</li>
+<li><strong>epsilon</strong> &#8211; The allowable difference between components to still be
+considered equal</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Compares the components of two vectors using the given epsilon and
+returns true if they are the same, using an internal epsilon for
+comparing the floats.</p>
+<p>Each component is compared against the epsilon value in this way:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">fabsf</span> <span class="p">(</span><span class="n">vector0</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">-</span> <span class="n">vector1</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">epsilon</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">true if the vectors are equal else false.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+float *<code class="descname">c_vector3_copy</code><span class="sig-paren">(</span>const float<em>&nbsp;*vector</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to copy</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Allocates a new 3 component float vector on the heap initializing
+the components from the given <code class="xref c c-data docutils literal"><span class="pre">vector</span></code> and returns a pointer to the
+newly allocated vector. You should free the memory using
+c_vector3_free()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A newly allocated 3 component float vector</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_vector3_free</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component you want to free</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Frees a 3 component vector that was previously allocated with
+c_vector3_copy()</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_vector3_invert</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to manipulate</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Inverts/negates all the components of the given <code class="xref c c-data docutils literal"><span class="pre">vector</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_vector3_add</code><span class="sig-paren">(</span>float<em>&nbsp;*result</em>, const float<em>&nbsp;*a</em>, const float<em>&nbsp;*b</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; Where you want the result written</li>
+<li><strong>a</strong> &#8211; The first vector operand</li>
+<li><strong>b</strong> &#8211; The second vector operand</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds each of the corresponding components in vectors <code class="xref c c-data docutils literal"><span class="pre">a</span></code> and <code class="xref c c-data docutils literal"><span class="pre">b</span></code>
+storing the results in <code class="xref c c-data docutils literal"><span class="pre">result</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_vector3_subtract</code><span class="sig-paren">(</span>float<em>&nbsp;*result</em>, const float<em>&nbsp;*a</em>, const float<em>&nbsp;*b</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; Where you want the result written</li>
+<li><strong>a</strong> &#8211; The first vector operand</li>
+<li><strong>b</strong> &#8211; The second vector operand</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Subtracts each of the corresponding components in vector <code class="xref c c-data docutils literal"><span class="pre">b</span></code> from
+<code class="xref c c-data docutils literal"><span class="pre">a</span></code> storing the results in <code class="xref c c-data docutils literal"><span class="pre">result</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_vector3_multiply_scalar</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em>, float<em>&nbsp;scalar</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to manipulate</li>
+<li><strong>scalar</strong> &#8211; The scalar you want to multiply the vector components by</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplies each of the <code class="xref c c-data docutils literal"><span class="pre">vector</span></code> components by the given scalar.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_vector3_divide_scalar</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em>, float<em>&nbsp;scalar</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to manipulate</li>
+<li><strong>scalar</strong> &#8211; The scalar you want to divide the vector components by</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Divides each of the <code class="xref c c-data docutils literal"><span class="pre">vector</span></code> components by the given scalar.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_vector3_normalize</code><span class="sig-paren">(</span>float<em>&nbsp;*vector</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want to manipulate</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Updates the vector so it is a &#8220;unit vector&#8221; such that the
+:c:data:<a href="#id3"><span class="problematic" id="id4">`</span></a>vector`&lt;!&#8211; &#8211;&gt;s magnitude or length is equal to 1.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It&#8217;s safe to use this function with the [0, 0, 0] vector, it will not
+try to divide components by 0 (its norm) and will leave the vector
+untouched.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt>
+float <code class="descname">c_vector3_magnitude</code><span class="sig-paren">(</span>const float<em>&nbsp;*vector</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vector</strong> &#8211; The 3 component vector you want the magnitude for</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Calculates the scalar magnitude or length of <code class="xref c c-data docutils literal"><span class="pre">vector</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The magnitude of <code class="xref c c-data docutils literal"><span class="pre">vector</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+void <code class="descname">c_vector3_cross_product</code><span class="sig-paren">(</span>float<em>&nbsp;*result</em>, const float<em>&nbsp;*u</em>, const float<em>&nbsp;*v</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; Where you want the result written</li>
+<li><strong>u</strong> &#8211; Your first 3 component vector</li>
+<li><strong>v</strong> &#8211; Your second 3 component vector</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Calculates the cross product between the two vectors <code class="xref c c-data docutils literal"><span class="pre">u</span></code> and <code class="xref c c-data docutils literal"><span class="pre">v</span></code>.</p>
+<p>The cross product is a vector perpendicular to both <code class="xref c c-data docutils literal"><span class="pre">u</span></code> and <code class="xref c c-data docutils literal"><span class="pre">v</span></code>. This
+can be useful for calculating the normal of a polygon by creating
+two vectors in its plane using the polygons vertices and taking
+their cross product.</p>
+<p>If the two vectors are parallel then the cross product is 0.</p>
+<p>You can use a right hand rule to determine which direction the
+perpendicular vector will point: If you place the two vectors tail,
+to tail and imagine grabbing the perpendicular line that extends
+through the common tail with your right hand such that you fingers
+rotate in the direction from <code class="xref c c-data docutils literal"><span class="pre">u</span></code> to <code class="xref c c-data docutils literal"><span class="pre">v</span></code> then the resulting vector
+points along your extended thumb.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The cross product between two vectors <code class="xref c c-data docutils literal"><span class="pre">u</span></code> and <code class="xref c c-data docutils literal"><span class="pre">v</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+float <code class="descname">c_vector3_dot_product</code><span class="sig-paren">(</span>const float<em>&nbsp;*a</em>, const float<em>&nbsp;*b</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> &#8211; Your first 3 component vector</li>
+<li><strong>b</strong> &#8211; Your second 3 component vector</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Calculates the dot product of the two 3 component vectors. This
+can be used to determine the magnitude of one vector projected onto
+another. (for example a surface normal)</p>
+<p>For example if you have a polygon with a given normal vector and
+some other point for which you want to calculate its distance from
+the polygon, you can create a vector between one of the polygon
+vertices and that point and use the dot product to calculate the
+magnitude for that vector but projected onto the normal of the
+polygon. This way you don&#8217;t just get the distance from the point to
+the edge of the polygon you get the distance from the point to the
+nearest part of the polygon.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you don&#8217;t use a unit length normal in the above example
+then you would then also have to divide the result by the magnitude
+of the normal</p>
+</div>
+<p>The dot product is calculated as:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">*</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">+</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">*</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">+</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">z</span> <span class="o">*</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For reference, the dot product can also be calculated from the
+angle between two vectors as:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="o">|</span><span class="n">a</span><span class="o">||</span><span class="n">b</span><span class="o">|</span><span class="n">cos𝜃</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The dot product of two vectors.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+float <code class="descname">c_vector3_distance</code><span class="sig-paren">(</span>const float<em>&nbsp;*a</em>, const float<em>&nbsp;*b</em><span class="sig-paren">)</span></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> &#8211; The first point</li>
+<li><strong>b</strong> &#8211; The second point</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If you consider the two given vectors as (x,y,z) points instead
+then this will compute the distance between those two points.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The distance between two points given as 3 component
+vectors.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="matrices.html" class="btn btn-neutral float-right" title="Matrices" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Api Reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Robert Bragg.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
