@@ -1761,16 +1761,20 @@ static inline void c_mutex_unlock(c_mutex_t *mutex)
     uv_mutex_unlock((uv_mutex_t *)mutex);
 }
 #else
-#  ifndef C_SUPPORTS_THREADS
 typedef int c_mutex_t;
 
+#  ifndef C_SUPPORTS_THREADS
 static inline void c_mutex_init(c_mutex_t *mutex) {}
 static inline void c_mutex_destroy(c_mutex_t *mutex) {}
 static inline void c_mutex_lock(c_mutex_t *mutex) {}
 static inline bool c_mutex_trylock(c_mutex_t *mutex) { return true; }
 static inline void c_mutex_unlock(c_mutex_t *mutex) {}
 #  else
-#    error "missing c_mutex_t support without libuv"
+static inline void c_mutex_init(c_mutex_t *mutex) { c_assert_not_reached(); }
+static inline void c_mutex_destroy(c_mutex_t *mutex) { c_assert_not_reached(); }
+static inline void c_mutex_lock(c_mutex_t *mutex) { c_assert_not_reached(); }
+static inline bool c_mutex_trylock(c_mutex_t *mutex) { c_assert_not_reached(); return true; }
+static inline void c_mutex_unlock(c_mutex_t *mutex) { c_assert_not_reached(); }
 #  endif
 #endif
 
