@@ -9,8 +9,11 @@ Welcome to Clib's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
-
+   reference/index
+   reference/vectors
+   reference/matrices
+   reference/euler
+   reference/quaternion
 
 
 Indices and tables
