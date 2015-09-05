@@ -74,6 +74,8 @@ licensed clone of many glib APIs. Now it follows a different K&R like
 style, some apis have diverged from the original glib ones and new
 apis have been added.
 
+##API Reference
+And initial API reference can be found [here](http://rig-project.github.io/clib/index.html).
 
 ##Similar projects:
 * [glib](https://developer.gnome.org/glib/stable/)
