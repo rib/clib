@@ -21,15 +21,13 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#pragma once
 
-#ifndef __CLIB_H
-#define __CLIB_H
+#include <clib-platform.h>
 
 #ifdef __EMSCRIPTEN__
 #include <clib-web.h>
 #endif
-
-#include <clib-platform.h>
 
 #include <stdarg.h>
 #include <stdbool.h>
@@ -1822,5 +1820,3 @@ void c_foreach_xdg_data_dir(c_xdg_dir_callback_t callback, void *user_data);
 C_END_DECLS
 
 #include <crbtree.h>
-
-#endif

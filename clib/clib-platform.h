@@ -21,14 +21,12 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _CLIB_PLATFORMS_H_
-#define _CLIB_PLATFORMS_H_
+#pragma once
 
 /* As much as possible we try to avoid depending on build time checks
  * which don't work well for the various cross compiling use cases we
  * want to support...
  */
-
 #ifndef _ALL_SOURCE
 # define _ALL_SOURCE 1
 #endif
@@ -155,5 +153,3 @@ typedef C_PIDTYPE c_pid_t;
 #ifndef C_BREAKPOINT
 #define C_BREAKPOINT()
 #endif
-
-#endif /* _CLIB_PLATFORMS_H_ */

@@ -15,8 +15,8 @@ Makefile.in
 TAGS
 aclocal.m4
 autom4te.cache
-config.h
-config.h.in
+autotool-config.h
+autotool-config.h.in
 config.log
 config.status
 configure
