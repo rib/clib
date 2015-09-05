@@ -200,7 +200,7 @@ c_vector4_init (float *vector, float x, float y, float z)
 void
 c_vector4_init_zero (float *vector)
 {
-    memset (vector, 0, sizeof (CoglVector4));
+    memset (vector, 0, sizeof (float) * 4);
 }
 
 bool
@@ -216,14 +216,14 @@ float *
 c_vector4_copy (float *vector)
 {
     if (vector)
-        return c_slice_dup (CoglVector4, vector);
+        return c_slice_copy(sizeof(float) * 4, vector);
     return NULL;
 }
 
 void
 c_vector4_free (float *vector)
 {
-    c_slice_free (CoglVector4, vector);
+    c_slice_free1(sizeof(float) * 4, vector);
 }
 
 void

@@ -31,8 +31,7 @@ C_BEGIN_DECLS
 
 /**
  * SECTION:cvector
- * @short_description: Functions for handling single precision float
- *                     vectors.
+ * @short_description: API for handling single precision float vectors.
  *
  * This exposes a utility API that can be used for basic manipulation of 3
  * component float vectors.

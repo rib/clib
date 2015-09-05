@@ -1,8 +1,4 @@
 /*
- * Cogl
- *
- * A Low-Level GPU Graphics and Utilities API
- *
  * Copyright (C) 2010 Intel Corporation.
  *
  * Permission is hereby granted, free of charge, to any person
@@ -25,8 +21,6 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Authors:
- *   Robert Bragg <robert@linux.intel.com>
  */
 
 #include "config.h"

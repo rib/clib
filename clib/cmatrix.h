@@ -31,11 +31,8 @@ C_BEGIN_DECLS
 
 /**
  * SECTION:cmatrix
- * @short_description: Functions for initializing and manipulating 4x4 matrices
+ * @short_description: API for initializing and manipulating 4x4 matrices
  *
- * Matrices are used in Cogl to describe affine model-view transforms, texture
- * transforms, and projective transforms. This exposes a utility API that can
- * be used for direct manipulation of these matrices.
  */
 
 /**
@@ -62,7 +59,7 @@ C_BEGIN_DECLS
  *
  * <note>You must consider the members of the c_matrix_t structure read only,
  * and all matrix modifications must be done via the c_matrix API. This
- * allows Cogl to annotate the matrices internally. Violation of this will give
+ * allows clib to annotate the matrices internally. Violation of this will give
  * undefined results. If you need to initialize a matrix with a constant other
  * than the identity matrix you can use c_matrix_init_from_array().</note>
  */
@@ -501,7 +498,7 @@ void c_matrix_free(c_matrix_t *matrix);
 bool c_matrix_get_inverse(const c_matrix_t *matrix, c_matrix_t *inverse);
 
 /* FIXME: to be consistent with c_matrix_{transform,project}_points
- * this could be renamed to c_matrix_project_point for Cogl 2.0...
+ * this could be renamed to c_matrix_project_point
  */
 
 /**

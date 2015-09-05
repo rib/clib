@@ -30,7 +30,7 @@ C_BEGIN_DECLS
 
 /**
  * SECTION:ceuler
- * @short_description: Functions for initializing and manipulating
+ * @short_description: API for initializing and manipulating
  * euler angles.
  *
  * Euler angles are a simple representation of a 3 dimensional
@@ -57,12 +57,6 @@ C_BEGIN_DECLS
  * <listitem>
  * Efficient storage, needing only 3 components any rotation can be
  * represented.
- * <note>Actually the #c_euler_t type isn't optimized for size because
- * we may cache the equivalent #c_quaternion_t along with a euler
- * rotation, but it would be trivial for an application to track the
- * components of euler rotations in a packed float array if optimizing
- * for size was important. The values could be passed to Cogl only when
- * manipulation is necessary.</note>
  * </listitem>
  * </itemizedlist>
  *
@@ -88,7 +82,7 @@ C_BEGIN_DECLS
  * </listitem>
  * <listitem>
  * There's no standard to what order the component axis rotations are
- * applied. The most common convention seems to be what we do in Cogl
+ * applied. The most common convention seems to be what we do in clib
  * with heading (y-axis), pitch (x-axis) and then roll (z-axis), but
  * other software might apply x-axis, y-axis then z-axis or any other
  * order so you need to consider this if you are accepting euler

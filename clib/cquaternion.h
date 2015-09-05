@@ -31,7 +31,7 @@ C_BEGIN_DECLS
 
 /**
  * SECTION:cquaternion
- * @short_description: Functions for initializing and manipulating
+ * @short_description: API for initializing and manipulating
  * quaternions.
  *
  * Quaternions have become a standard form for representing 3D
@@ -62,7 +62,7 @@ C_BEGIN_DECLS
  * then be written as <literal>[w (x, y, z)]</literal>.
  *
  * Quaternions can be considered to represent an axis and angle
- * pair although sadly these numbers are buried somewhat under some
+ * pair although these numbers are buried somewhat under some
  * maths...
  *
  * For the curious you can see here that a given axis (a) and angle (𝜃)
@@ -83,9 +83,9 @@ C_BEGIN_DECLS
  * w² + x² + y² + z² = 1
  * ]|
  *
- * Thankfully most of the time we don't actually have to worry about
- * the maths that goes on behind the scenes but if you are curious to
- * learn more here are some external references:
+ * Most of the time we don't have to worry about the maths involved
+ * with quaternions but if you are curious to learn more here are some
+ * external references:
  *
  * <itemizedlist>
  * <listitem>
@@ -230,7 +230,7 @@ void c_quaternion_init_from_euler(c_quaternion_t *quaternion,
 
 /**
  * c_quaternion_init_from_matrix:
- * @quaternion: A Cogl Quaternion
+ * @quaternion: A Quaternion
  * @matrix: A rotation matrix with which to initialize the quaternion
  *
  * Initializes a quaternion from a rotation matrix.
@@ -329,8 +329,8 @@ void c_quaternion_invert(c_quaternion_t *quaternion);
  * @right: The first #c_quaternion_t rotation to apply
  *
  * This combines the rotations of two quaternions into @result. The
- * operation is not commutative so the order is important because AxB
- * != BxA. Cogl follows the standard convention for quaternions here
+ * operation is not commutative so the order is important; AxB
+ * != BxA. Clib follows the standard convention for quaternions here
  * so the rotations are applied @right to @left. This is similar to the
  * combining of matrices.
  *
