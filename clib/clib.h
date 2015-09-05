@@ -80,10 +80,6 @@ int vasprintf(char **strp, const char *fmt, va_list ap);
 int mkstemp(char *tmp_template);
 #endif
 
-#ifndef C_HAVE_FMEMOPEN
-FILE *fmemopen(void *buf, size_t size, const char *mode);
-#endif
-
 /*
  * Basic data types
  */
@@ -1512,6 +1508,12 @@ bool c_file_test(const char *filename, c_file_test_t test);
 #define c_mkstemp mkstemp
 #define c_ascii_isdigit isdigit
 #define c_ascii_isalnum isalnum
+
+typedef struct _c_mem_file_t c_mem_file_t;
+int c_mem_file_write(c_mem_file_t *file, const char *buf, int len);
+int c_mem_file_seek(c_mem_file_t *file, int pos, int whence);
+int c_mem_file_close(c_mem_file_t *file);
+c_mem_file_t *c_mem_file_open(void *buf, size_t size, const char *mode);
 
 /*
  * Pattern matching

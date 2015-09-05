@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014  Intel Corporation
+ * Copyright (C) 2014-2015  Intel Corporation
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -30,77 +30,72 @@
 
 #include <clib.h>
 
-typedef struct _cookie_t {
+struct _c_mem_file_t {
     char *buffer;
     bool user_buffer;
     size_t buffer_size;
     size_t file_size;
     size_t pos;
-} cookie_t;
+};
 
-static int
-read_callback(void *cookie_, char *buf, int len)
+int
+c_mem_file_read(c_mem_file_t *file, char *buf, int len)
 {
-    cookie_t *cookie = cookie_;
-
-    if (cookie->pos >= cookie->file_size)
+    if (file->pos >= file->file_size)
         return 0;
 
-    if ((cookie->pos + len) > cookie->file_size)
-        len = cookie->file_size - cookie->pos;
+    if ((file->pos + len) > file->file_size)
+        len = file->file_size - file->pos;
 
-    memcpy(buf, cookie->buffer + cookie->pos, len);
+    memcpy(buf, file->buffer + file->pos, len);
 
-    cookie->pos += len;
+    file->pos += len;
 
     return len;
 }
 
-static int
-write_callback(void *cookie_, const char *buf, int len)
+int
+c_mem_file_write(c_mem_file_t *file, const char *buf, int len)
 {
-    cookie_t *cookie = cookie_;
-
     /* For simplicitly we avoid doing a partial write when there isn't
      * enough space.
      *
      * We consider it an error if there isn't also room to write a null
      * byte after the write.
      */
-    if ((cookie->pos + len) >= cookie->buffer_size) {
+    if ((file->pos + len) >= file->buffer_size) {
         errno = ENOSPC;
         return -1;
     }
 
-    if (cookie->pos > cookie->file_size) {
-        size_t extend = cookie->pos - cookie->file_size;
-        memset(cookie->buffer + cookie->file_size, 0, extend);
-        cookie->file_size = cookie->pos;
-        cookie->buffer[cookie->pos] = '\0';
+    if (file->pos > file->file_size) {
+        size_t extend = file->pos - file->file_size;
+        memset(file->buffer + file->file_size, 0, extend);
+        file->file_size = file->pos;
+        file->buffer[file->pos] = '\0';
     }
 
-    memcpy(cookie->buffer + cookie->pos, buf, len);
+    memcpy(file->buffer + file->pos, buf, len);
 
-    cookie->pos += len;
+    file->pos += len;
 
     return len;
 }
 
-static off_t
-seek_callback(void *cookie_, off_t pos, int whence)
+int
+c_mem_file_seek(c_mem_file_t *file, int pos, int whence)
 {
-    cookie_t *cookie = cookie_;
-    off_t new_pos = 0;
+    int new_pos = 0;
 
     switch (whence) {
     case SEEK_SET:
         new_pos = pos;
         break;
     case SEEK_CUR:
-        new_pos = cookie->pos + pos;
+        new_pos = file->pos + pos;
         break;
     case SEEK_END:
-        new_pos = cookie->file_size - pos;
+        new_pos = file->file_size - pos;
         break;
     default:
         errno = EINVAL;
@@ -112,28 +107,25 @@ seek_callback(void *cookie_, off_t pos, int whence)
         return -1;
     }
 
-    cookie->pos = new_pos;
+    file->pos = new_pos;
 
     return new_pos;
 }
 
-static int
-close_callback(void *cookie_)
+int
+c_mem_file_close(c_mem_file_t *file)
 {
-    cookie_t *cookie = cookie_;
-
-    if (!cookie->user_buffer)
-        c_free(cookie->buffer);
-    c_free(cookie);
+    if (!file->user_buffer)
+        c_free(file->buffer);
+    c_free(file);
 
     return 0;
 }
 
-FILE *
-fmemopen(void *buf, size_t size, const char *mode)
+c_mem_file_t *
+c_mem_file_open(void *buf, size_t size, const char *mode)
 {
-    cookie_t *cookie;
-    FILE *file = NULL;
+    c_mem_file_t *file;
 
     /* Behave like glibc... */
     if (size <= 0) {
@@ -141,43 +133,37 @@ fmemopen(void *buf, size_t size, const char *mode)
         return NULL;
     }
 
-    cookie = c_new(cookie_t, 1);
+    file = c_new(c_mem_file_t, 1);
 
     if (buf) {
-        cookie->buffer = buf;
-        cookie->user_buffer = true;
+        file->buffer = buf;
+        file->user_buffer = true;
     } else {
-        cookie->buffer = c_malloc(size);
-        cookie->user_buffer = false;
-        cookie->buffer[0] = '\0';
+        file->buffer = c_malloc(size);
+        file->user_buffer = false;
+        file->buffer[0] = '\0';
     }
 
-    cookie->buffer_size = size;
+    file->buffer_size = size;
 
     if (mode[0] == 'r') {
-        cookie->file_size = cookie->buffer_size;
-        cookie->pos = 0;
+        file->file_size = file->buffer_size;
+        file->pos = 0;
     } else if (mode[0] == 'w') {
-        cookie->file_size = 0;
-        cookie->pos = 0;
+        file->file_size = 0;
+        file->pos = 0;
 
-        if (cookie->pos < cookie->buffer_size)
-            cookie->buffer[cookie->pos] = '\0';
+        if (file->pos < file->buffer_size)
+            file->buffer[file->pos] = '\0';
     } else if (mode[0] == 'a') {
         /* Note: Like glibc a+ isn't handled specially */
-        cookie->file_size = strnlen(cookie->buffer, cookie->buffer_size);
-        cookie->pos = cookie->file_size;
+        file->file_size = strnlen(file->buffer, file->buffer_size);
+        file->pos = file->file_size;
     } else {
-        c_free(cookie);
+        c_free(file);
         errno = EINVAL;
         return NULL;
     }
-
-    file = funopen(
-        cookie, read_callback, write_callback, seek_callback, close_callback);
-
-    if (!file)
-        c_free(cookie);
 
     return file;
 }
