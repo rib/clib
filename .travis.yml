@@ -28,4 +28,5 @@ before_script:
     - ./autogen.sh
 
 script:
+    - $CC --version
     - ./configure && make
