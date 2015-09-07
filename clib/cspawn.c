@@ -34,7 +34,7 @@
 
 #include <clib.h>
 
-#ifdef __unix__
+#ifdef C_PLATFORM_UNIX
 #include <unistd.h>
 #include <sys/time.h>
 #include <sys/wait.h>

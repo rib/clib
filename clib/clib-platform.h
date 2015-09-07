@@ -44,7 +44,9 @@
 #  define C_BYTE_ORDER C_LITTLE_ENDIAN
 #endif
 
-#ifdef __unix__
+#if defined(__unix__) || defined(__APPLE__)
+#  define C_PLATFORM_UNIX	   1
+
 #  define C_SEARCHPATH_SEPARATOR_S ":"
 #  define C_SEARCHPATH_SEPARATOR   ':'
 #  define C_DIR_SEPARATOR          '/'
@@ -62,7 +64,7 @@
     C_STMT_START {          \
         raise(SIGTRAP);     \
     } C_STMT_END
-#endif /* __unix__ */
+#endif /* __unix__ || __APPLE__ */
 
 #define C_HAVE_STATIC_ASSERT     1
 

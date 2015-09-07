@@ -30,7 +30,7 @@
 
 #include <clib.h>
 
-#ifdef __unix__
+#ifdef C_PLATFORM_UNIX
 #include <unistd.h>
 #endif
 
@@ -353,7 +353,7 @@ c_get_current_dir(void)
 #endif
 }
 
-#ifdef __unix__
+#ifdef C_PLATFORM_UNIX
 bool
 c_file_test(const char *filename, c_file_test_t test)
 {

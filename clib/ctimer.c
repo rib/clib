@@ -25,7 +25,7 @@
 
 #include <clib.h>
 
-#ifdef __unix__
+#ifdef C_PLATFORM_UNIX
 #include <time.h>
 #endif
 
@@ -89,7 +89,7 @@ c_get_monotonic_time(void)
 
 #ifdef __APPLE__
     ret = mach_absolute_time() * mach_abs_time_scale;
-#elif defined(__unix__)
+#elif defined(C_PLATFORM_UNIX)
     struct timespec ts;
 
     clock_gettime(CLOCK_MONOTONIC, &ts);

@@ -37,7 +37,7 @@
 #include <direct.h>
 #endif
 
-#ifdef __unix__
+#ifdef C_PLATFORM_UNIX
 #include <unistd.h>
 #endif
 
