@@ -38,7 +38,7 @@ c_parse_debug_string(const char *string,
     unsigned int value = 0;
     int i;
 
-    if (strcasecmp(string, "help") == 0) {
+    if (c_strcasecmp(string, "help") == 0) {
         c_printerr("Supported debug keys:\n");
         for (i = 0; strv[i]; i++) {
             c_printerr("  %s:\n", keys[i].key);
@@ -51,9 +51,9 @@ c_parse_debug_string(const char *string,
         unsigned int j;
 
         for (j = 0; j < nkeys; j++)
-            if (strcasecmp(keys[j].key, strv[i]) == 0)
+            if (c_strcasecmp(keys[j].key, strv[i]) == 0)
                 value |= keys[j].value;
-            else if (strcasecmp(keys[j].key, "all") == 0)
+            else if (c_strcasecmp(keys[j].key, "all") == 0)
                 needs_invert = true;
     }
 

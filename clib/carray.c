@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <clib.h>
 
-#define INITIAL_CAPACITY 16
+#define INITIAL_CAPACITY 16U
 
 #define element_offset(p, i) ((p)->array.data + (i) * (p)->element_size)
 #define element_length(p, i) ((i) * (p)->element_size)
@@ -52,7 +52,7 @@ ensure_capacity(c_array_priv_t *priv, unsigned int capacity)
     if (capacity <= priv->capacity)
         return;
 
-    for (new_capacity = MAX(INITIAL_CAPACITY, priv->capacity * 1.5);
+    for (new_capacity = MAX(INITIAL_CAPACITY, (unsigned)(priv->capacity * 1.5));
          new_capacity < capacity;
          new_capacity *= 1.5)
         ;

@@ -27,7 +27,7 @@
 
 #include <clib.h>
 #include <string.h>
-#ifdef HAVE_ICONV_H
+#ifdef C_HAVE_ICONV_H
 #include <iconv.h>
 #endif
 #include <errno.h>
@@ -48,7 +48,7 @@ struct _c_iconv_t {
     decoder_t decode;
     encoder_t encode;
     c_codepoint_t c;
-#ifdef HAVE_ICONV
+#ifdef C_HAVE_ICONV
     iconv_t cd;
 #endif
 };
@@ -107,7 +107,7 @@ static struct {
 c_iconv_t
 c_iconv_open(const char *to_charset, const char *from_charset)
 {
-#ifdef HAVE_ICONV
+#ifdef C_HAVE_ICONV
     iconv_t icd = (iconv_t) - 1;
 #endif
     decoder_t decoder = NULL;
@@ -130,7 +130,7 @@ c_iconv_open(const char *to_charset, const char *from_charset)
     }
 
     if (!encoder || !decoder) {
-#ifdef HAVE_ICONV
+#ifdef C_HAVE_ICONV
         if ((icd = iconv_open(to_charset, from_charset)) == (iconv_t) - 1)
             return (c_iconv_t) - 1;
 #else
@@ -145,7 +145,7 @@ c_iconv_open(const char *to_charset, const char *from_charset)
     cd->encode = encoder;
     cd->c = -1;
 
-#ifdef HAVE_ICONV
+#ifdef C_HAVE_ICONV
     cd->cd = icd;
 #endif
 
@@ -155,7 +155,7 @@ c_iconv_open(const char *to_charset, const char *from_charset)
 int
 c_iconv_close(c_iconv_t cd)
 {
-#ifdef HAVE_ICONV
+#ifdef C_HAVE_ICONV
     if (cd->cd != (iconv_t) - 1)
         iconv_close(cd->cd);
 #endif
@@ -177,7 +177,7 @@ c_iconv(c_iconv_t cd,
     c_codepoint_t c;
     int rc = 0;
 
-#ifdef HAVE_ICONV
+#ifdef C_HAVE_ICONV
     if (cd->cd != (iconv_t) - 1) {
         /* Note: size_t may have a different size than size_t, so we need to
            remap inbytesleft and outbytesleft to size_t's. */

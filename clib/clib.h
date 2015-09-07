@@ -38,7 +38,6 @@
 #include <ctype.h>
 #include <limits.h>
 #include <float.h>
-#include <netinet/in.h>
 #ifdef C_HAVE_PTHREADS
 #include <pthread.h>
 #endif
@@ -88,7 +87,6 @@ FILE *fmemopen(void *buf, size_t size, const char *mode);
 /*
  * Basic data types
  */
-typedef ssize_t c_ssize_t;
 typedef uint16_t c_utf16_t;
 typedef uint32_t c_codepoint_t;
 
@@ -101,12 +99,14 @@ typedef uint32_t c_codepoint_t;
 #define C_PASTE_ARGS(part0, part1) part0##part1
 #define C_PASTE(part0, part1) C_PASTE_ARGS(part0, part1)
 
-#ifndef false
-#define false 0
-#endif
+#ifndef __cplusplus
+#  ifndef false
+#  define false 0
+#  endif
 
-#ifndef true
-#define true 1
+#  ifndef true
+#  define true 1
+#  endif
 #endif
 
 #define C_MINSHORT SHRT_MIN
@@ -1597,10 +1597,10 @@ long c_utf8_pointer_to_offset(const char *str, const char *pos);
 typedef pthread_key_t c_tls_t;
 #  elif defined(WIN32)
 #  define C_SUPPORTS_THREADS 1
-typedef struct _c_tls_t c_tls_t {
+typedef struct _c_tls_t c_tls_t;
 struct _c_tls_t {
     DWORD key;
-    void (void *tls_data);
+    void (*destroy)(void *tls_data);
     c_tls_t *next;
 };
 #else

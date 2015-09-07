@@ -49,6 +49,7 @@
         ],
       },
       'sources': [
+	'config.h',
         'clib/ascii_snprintf.c',
         'clib/carray.c',
         'clib/cbytearray.c',
@@ -87,7 +88,6 @@
         'clib/cstr.c',
         'clib/cstring.c',
         'clib/ctimer.c',
-        'clib/ctls.c',
         'clib/cunicode.c',
         'clib/cutf8.c',
         'clib/cvector.c',
@@ -123,6 +123,7 @@
             'clib/cdate-win32.c',
             'clib/cdir-win32.c',
             'clib/cmisc-win32.c',
+            'clib/ctls-win32.cc',
             'clib/mkstemp.c',
             'clib/vasprintf.c',
             'clib/fmemopen.c',
@@ -149,6 +150,7 @@
             'clib/cdir-unix.c',
             'clib/cmisc-unix.c',
             'clib/cxdg-unix.c',
+			'clib/ctls.c',
           ],
           'link_settings': {
             'libraries': [ '-lm' ],

@@ -395,8 +395,7 @@ c_find_program_in_path(const char *program)
 #ifdef WIN32
     char *program_exe;
     char *suffix_list[5] = { ".exe", ".cmd", ".bat", ".com", NULL };
-    int listx;
-    bool hasSuffix;
+    bool has_suffix;
 #endif
 
     c_return_val_if_fail(program != NULL, NULL);
@@ -408,12 +407,14 @@ c_find_program_in_path(const char *program)
     }
 
 #ifdef WIN32
-    /* see if program already has a suffix */
-    listx = 0;
-    hasSuffix = false;
-    while (!hasSuffix && suffix_list[listx]) {
-        hasSuffix = c_str_has_suffix(program, suffix_list[listx++]);
-    }
+	has_suffix = false;
+	for (int i = 0; suffix_list[i]; i++) {
+		if (c_str_has_suffix(program, suffix_list[i])) {
+			has_suffix = true;
+			break;
+		}
+	}
+#else
 #endif
 
     while ((l = strtok_r(x, C_SEARCHPATH_SEPARATOR_S, &save)) != NULL) {
@@ -421,8 +422,7 @@ c_find_program_in_path(const char *program)
 
         x = NULL;
         probe_path = c_build_path(C_DIR_SEPARATOR_S, l, program, NULL);
-        if (access(probe_path, X_OK) ==
-            0) { /* FIXME: on windows this is just a read permissions test */
+        if (access(probe_path, X_OK) == 0) {
             c_free(curdir);
             c_free(p);
             return probe_path;
@@ -431,22 +431,18 @@ c_find_program_in_path(const char *program)
 
 #ifdef WIN32
         /* check for program with a suffix attached */
-        if (!hasSuffix) {
-            listx = 0;
-            while (suffix_list[listx]) {
+        if (!has_suffix) {
+			for (int i = 0; suffix_list[i]; i++) {
                 program_exe =
-                    c_strjoin(NULL, program, suffix_list[listx], NULL);
+                    c_strjoin(NULL, program, suffix_list[i], NULL);
                 probe_path =
                     c_build_path(C_DIR_SEPARATOR_S, l, program_exe, NULL);
-                if (access(probe_path, X_OK) == 0) { /* FIXME: on windows this
-                                                        is just a read
-                                                        permissions test */
+                if (access(probe_path, R_OK) == 0) {
                     c_free(curdir);
                     c_free(p);
                     c_free(program_exe);
                     return probe_path;
                 }
-                listx++;
                 c_free(probe_path);
                 c_free(program_exe);
             }

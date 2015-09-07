@@ -89,7 +89,7 @@ c_unsetenv(const char *variable)
 char *
 c_win32_getlocale(void)
 {
-    LCID lcid = UetThreadLocale();
+    LCID lcid = GetThreadLocale();
     char buf[19];
     int ccBuf = GetLocaleInfo(lcid, LOCALE_SISO639LANGNAME, buf, 9);
     buf[ccBuf - 1] = '-';

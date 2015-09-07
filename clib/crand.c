@@ -20,6 +20,11 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
+#ifdef WIN32
+#define _CRT_RAND_S /* for rand_s api*/
+#endif
+
 #include <config.h>
 
 #ifdef __linux__
@@ -28,6 +33,10 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <unistd.h>
+#endif
+
+#ifdef WIN32
+#include <stdio.h>
 #endif
 
 #ifdef __EMSCRIPTEN__

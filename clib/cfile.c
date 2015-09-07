@@ -411,7 +411,7 @@ c_file_test(const char *filename, c_file_test_t test)
         return false;
 
     utf16_filename = u8to16(filename);
-    attr = UetFileAttributesW(utf16_filename);
+    attr = GetFileAttributesW(utf16_filename);
     c_free(utf16_filename);
 
     if (attr == INVALID_FILE_ATTRIBUTES)

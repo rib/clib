@@ -39,7 +39,7 @@ c_get_current_time(c_timeval_t *result)
     long int l;
 
     c_return_if_fail(result != NULL);
-    l = UetTickCount();
+    l = GetTickCount();
 
     result->tv_sec = l / 1000;
     result->tv_usec = (l % 1000) * 1000;

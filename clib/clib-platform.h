@@ -68,31 +68,19 @@
 
 #if defined _MSC_VER
 #  define C_ALIGNOF(x) __alignof(x)
+#  include <basetsd.h>
+typedef SSIZE_T c_ssize_t;
 #else
+#  include <sys/types.h>
 #  define C_ALIGNOF(x) __alignof__(x)
+#  define C_HAVE_ICONV 1
+#  define C_HAVE_ICONV_H 1
+#  define HAVE_STPCPY 1
+typedef ssize_t c_ssize_t;
 #endif
 
 /* missing on ios/windows */
 #define C_HAVE_STRNDUP 1
-
-/* referenced ascii_snprintf.c */
-#define HAVE_STDARG_H 1
-#define HAVE_STDDEF_H 1
-#define HAVE_STDINT_H 1
-
-
-/* XXX: defines that should be removed if we can assume they
- * are always available... */
-#define HAVE_FFS 1
-#define HAVE_ICONV 1
-#define HAVE_ICONV_H 1
-#define HAVE_INTTYPES_H 1
-#define HAVE_LANGINFO_H 1
-#define HAVE_LIMITS_H 1
-#define HAVE_STPCPY 1
-#define HAVE_STRDUP 1
-
-
 
 #if defined(__ANDROID__)
 
@@ -132,7 +120,7 @@
 
 #elif defined(_WIN32)
 
-#  define C_PLATFORM="Windows"
+#  define C_PLATFORM "Windows"
 #  define C_PLATFORM_WINDOWS 1
 #  undef  C_HAVE_FMEMOPEN
 #  undef  C_HAVE_MEMMEM
@@ -144,6 +132,9 @@
 #  define C_DIR_SEPARATOR_S        "\\"
 #  define C_PIDTYPE                void *
 
+#  ifndef __cplusplus
+#    define inline __inline
+#  endif
 #else
 #  error "Unknown platform"
 #endif

@@ -24,7 +24,6 @@
 #include <config.h>
 
 #include <clib.h>
-#include <sys/time.h>
 
 #ifdef __unix__
 #include <time.h>
@@ -53,7 +52,7 @@ c_timer_new(void)
     c_timer_t *timer;
 
 #ifdef WIN32
-    if (!qpc_freq) {
+    if (!qpc_scale) {
         LARGE_INTEGER li;
 
         QueryPerformanceFrequency(&li);

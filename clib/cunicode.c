@@ -220,7 +220,7 @@ c_get_charset(C_CONST_RETURN char **charset)
     if (my_charset == NULL) {
 #ifdef WIN32
         static char buf[14];
-        sprintf(buf, "CP%u", UetACP());
+        sprintf(buf, "CP%u", GetACP());
         my_charset = buf;
         is_utf8 = false;
 #else
@@ -279,6 +279,7 @@ c_filename_display_name(const char *filename)
     const char *start;
     const char *end;
     char *name;
+	c_string_t *str;
 
     if (c_utf8_validate(filename, -1, NULL))
         return c_strdup(filename);
@@ -287,7 +288,7 @@ c_filename_display_name(const char *filename)
     if (name)
         return name;
 
-    c_string_t *str = c_string_new("");
+    str = c_string_new("");
 
     for (start = filename; true; start = end + 1)
     {

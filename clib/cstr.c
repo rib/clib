@@ -44,7 +44,7 @@
 char *
 c_strndup(const char *str, size_t n)
 {
-#ifdef HAVE_STRNDUP
+#ifdef C_HAVE_STRNDUP
     return strndup(str, n);
 #else
     if (str) {

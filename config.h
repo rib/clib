@@ -23,6 +23,25 @@
 
 #pragma once
 
+/* Things defined in clib-platform.h below end up exposed to anyone
+ * that includes clib.h but we have a few portability defines we want
+ * available across clib while compiling.
+ */
+#if defined _MSC_VER
+#  define _WINSOCKAPI_
+#  include <Windows.h>
+#  include <io.h>
+#  include <sys/types.h> // provides off_t
+
+#  define R_OK 4
+#  define W_OK 2
+#  define X_OK R_OK
+#  define F_OK 0
+
+#  define access _access
+#endif
+
+
 /* Most platform configuration is handled at compile time in
  * clib-platform.h but if clib is built with autotools then it's
  * possible to defines some options at configure time...
@@ -31,5 +50,22 @@
 #ifdef HAVE_CONFIG_H
 #include "autotool-config.h"
 #endif
+
+
+/* referenced in ascii_snprintf.c */
+#define HAVE_STDARG_H 1
+#define HAVE_STDDEF_H 1
+#define HAVE_STDINT_H 1
+
+
+/* XXX: defines that should be removed if we can assume they
+ * are always available... */
+#define HAVE_FFS 1
+#define HAVE_INTTYPES_H 1
+#define HAVE_LANGINFO_H 1
+#define HAVE_LIMITS_H 1
+
+#define HAVE_STRDUP 1
+
 
 #include "clib-platform.h"

@@ -1470,10 +1470,10 @@ c_matrix_orthographic(c_matrix_t *matrix,
                        float y_1,
                        float x_2,
                        float y_2,
-                       float near,
-                       float far)
+                       float nearval,
+                       float farval)
 {
-    _c_matrix_orthographic(matrix, x_1, y_1, x_2, y_2, near, far);
+    _c_matrix_orthographic(matrix, x_1, y_1, x_2, y_2, nearval, farval);
     _MATRIX_DEBUG_PRINT(matrix);
 }
 
