@@ -9,8 +9,8 @@ compiler:
     - gcc
 
 before_install:
-    - sudo apt-get update -qq
-    - sudo apt-get install -y libuv-dev
+    - git clone --branch master --depth 1 https://github.com/libuv/libuv
+    - cd libuv && ./autogen.sh && ./configure --prefix=/usr && make && sudo make install
 
 before_script:
     - ./autogen.sh
