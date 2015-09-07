@@ -28,5 +28,4 @@ before_script:
     - ./autogen.sh
 
 script:
-    - $CC --version
-    - ./configure && make
+    - ./configure CC="gcc-4.8" CXX="g++-4.8" && make
