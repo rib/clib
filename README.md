@@ -21,8 +21,8 @@ environments and development practices.  This also helps encourage
 only building the apis you need for your project.
 
 ##Platform Support:
-Clib has only been tested on Linux and Emscripten recently but should
-also support Android, Windows and OSX/iOS.
+Clib has only been tested on Linux, Emscripten and Windows recently
+but should also support Android and OSX/iOS.
 
 ##Scope
 Clib has been spun out of the
