@@ -9,7 +9,7 @@ AC_CONFIG_MACRO_DIR([build/autotools])
 AC_CONFIG_HEADERS(autotool-config.h)
 AC_CANONICAL_SYSTEM
 AC_CANONICAL_HOST
-AM_INIT_AUTOMAKE([1.13 foreign -Wno-portability no-define no-dist-gzip dist-bzip2 subdir-objects])
+AM_INIT_AUTOMAKE([1.11 foreign -Wno-portability no-define no-dist-gzip dist-bzip2 subdir-objects])
 AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CC
 AM_SILENT_RULES([yes])
