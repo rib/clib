@@ -25,7 +25,7 @@ addons:
             - clang
 
 before_script:
-    - ./autogen.sh
+    - NOCONFIGURE=1 ./autogen.sh
 
 script:
     - ./configure CC="gcc-4.8" CXX="g++-4.8" && make
