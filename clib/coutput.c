@@ -212,10 +212,9 @@ c_logv(c_log_context_t *lctx,
     }
 
 #if defined(C_PLATFORM_ANDROID)
-    __android_log_print(
-        to_android_priority(log_level), log_domain, msg);
+    __android_log_print(to_android_priority(log_level), log_domain, "%s", msg);
 #elif defined(C_PLATFORM_DARWIN)
-    asl_log(NULL, NULL, to_asl_priority(log_level), msg);
+    asl_log(NULL, NULL, to_asl_priority(log_level), "%s", msg);
 #elif defined(C_PLATFORM_WINDOWS)
 
     printf("%s%s%s\n",
