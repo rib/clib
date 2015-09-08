@@ -57,7 +57,7 @@ struct _c_rand_t
 c_rand_t *
 c_rand_new(void)
 {
-#ifdef __linux__ || __ANDROID__ || __APPLE__
+#if defined(__linux__) || defined(__ANDROID__) || defined(__APPLE__)
     int fd;
     uint32_t seed[4];
     int len;
