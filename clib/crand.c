@@ -27,7 +27,7 @@
 
 #include <config.h>
 
-#ifdef __linux__
+#ifdef C_PLATFORM_UNIX
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
