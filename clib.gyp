@@ -59,7 +59,6 @@
         'clib/ceuler.h',
         'clib/cfile.c',
         'clib/chashtable.c',
-        'clib/chooklist.c',
         'clib/ciconv.c',
         'clib/clib-platform.h',
         'clib/clib.h',

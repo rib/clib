@@ -771,42 +771,6 @@ c_llist_insert_sorted(c_llist_t *list, void *data, c_compare_func_t func);
 c_llist_t *c_llist_insert_before(c_llist_t *list, c_llist_t *sibling, void *data);
 c_llist_t *c_llist_sort(c_llist_t *sort, c_compare_func_t func);
 
-/*
- * HookLists
- */
-typedef void (*c_hook_func_t)(void *data);
-
-typedef struct _c_hook_t c_hook_t;
-typedef struct _c_hook_list_t c_hook_list_t;
-
-struct _c_hook_t {
-    c_hook_t *next;
-    c_hook_t *prev;
-    void *data;
-    void *func;
-    bool in_call;
-};
-
-struct _c_hook_list_t {
-    c_hook_t *hooks;
-};
-
-void c_hook_list_init(c_hook_list_t *hook_list, unsigned int hook_size);
-
-void c_hook_list_invoke(c_hook_list_t *hook_list, bool may_recurse);
-
-void c_hook_list_clear(c_hook_list_t *hook_list);
-
-c_hook_t *c_hook_alloc(c_hook_list_t *hook_list);
-
-c_hook_t *c_hook_find_func_data(c_hook_list_t *hook_list,
-                                bool need_valids,
-                                void *func,
-                                void *data);
-
-void c_hook_destroy_link(c_hook_list_t *hook_list, c_hook_t *hook);
-
-void c_hook_prepend(c_hook_list_t *hook_list, c_hook_t *hook);
 
 /*
  * Hashtables

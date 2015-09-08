@@ -37,7 +37,6 @@ clib_common_source = \
 	cptrarray.c     \
 	clist.c		\
 	cllist.c	\
-	chooklist.c	\
 	cqueue.c	\
 	cpath.c		\
 	cshell.c	\
