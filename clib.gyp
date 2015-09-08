@@ -149,7 +149,7 @@
             'clib/cdir-unix.c',
             'clib/cmisc-unix.c',
             'clib/cxdg-unix.c',
-			'clib/ctls.c',
+	    'clib/ctls.c',
           ],
           'link_settings': {
             'libraries': [ '-lm' ],
@@ -180,7 +180,10 @@
         [ 'OS=="mac"', {
           'defines': [
             '_DARWIN_USE_64_BIT_INODE=1'
-          ]
+          ],
+          'sources': [
+            'clib/fmemopen.c',
+	  ]
         }],
         [ 'OS!="mac"', {
           # Enable on all platforms except OS X. The antique gcc/clang that
