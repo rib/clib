@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rig-project/clib.png)](https://travis-ci.org/rig-project/clib)
+
 ##Clib: A C utilities library
 
 Clib is a collection of C utilities under the MIT license
