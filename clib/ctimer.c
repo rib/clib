@@ -32,6 +32,7 @@
 #ifdef __APPLE__
 #include <mach/clock.h>
 #include <mach/mach.h>
+#include <mach/mach_time.h>
 #endif
 
 #ifdef WIN32
@@ -60,7 +61,7 @@ c_timer_new(void)
     }
 #endif
 #ifdef __APPLE__
-    if (!mach_abs_time_freq) {
+    if (!mach_abs_time_scale) {
         mach_timebase_info_data_t timebase;
 
         mach_timebase_info(&timebase);
