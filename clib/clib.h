@@ -1704,7 +1704,7 @@ uint32_t c_random_uint32(void);
 int32_t c_random_int32_range(int32_t begin, int32_t end);
 bool c_random_boolean(void);
 
-#ifdef C_PLATFORM_HAS_XDG_DIRS
+#ifdef C_PLATFORM_LINUX
 /* XDG dirs */
 const char *c_get_xdg_data_home(void);
 const char *c_get_xdg_data_dirs(void);

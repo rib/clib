@@ -25,12 +25,15 @@ libclib_la_SOURCES = \
 	$(clib_common_source) \
 	$(sfmt_source)
 
-unix_files = cdate-unix.c cdir-unix.c cmisc-unix.c \
-	     cxdg-unix.c
+unix_files = cdate-unix.c cdir-unix.c cmisc-unix.c
 threads_files = ctls.c
 
 if OS_UNIX
 libclib_la_SOURCES += $(unix_files) $(threads_files)
+endif
+
+if OS_LINUX
+libclib_la_SOURCES += cxdg-unix.c
 endif
 
 if OS_DARWIN

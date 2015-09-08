@@ -96,7 +96,6 @@ typedef ssize_t c_ssize_t;
 #  define C_PLATFORM "Linux"
 #  define C_PLATFORM_LINUX 1
 #  define C_HAVE_PTHREADS 1
-#  define C_PLATFORM_HAS_XDG_DIRS 1
 
 #elif defined(__APPLE__)
 
