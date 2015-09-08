@@ -1480,14 +1480,6 @@ int c_mem_file_close(c_mem_file_t *file);
 c_mem_file_t *c_mem_file_open(void *buf, size_t size, const char *mode);
 
 /*
- * Pattern matching
- */
-typedef struct _UPatternSpec UPatternSpec;
-UPatternSpec *c_pattern_spec_new(const char *pattern);
-void c_pattern_spec_free(UPatternSpec *pspec);
-bool c_pattern_match_string(UPatternSpec *pspec, const char *string);
-
-/*
  * Directory
  */
 typedef struct _c_dir_t c_dir_t;
