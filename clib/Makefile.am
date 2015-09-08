@@ -38,18 +38,15 @@ endif
 
 if OS_DARWIN
 libclib_la_SOURCES += \
-	fmemopen.c \
-	memmem.c
+	fmemopen.c
 endif
 
 if OS_WIN32
 libclib_la_SOURCES += \
-	clib-config.hw \
 	cdate-win32.c cdir-win32.c cmisc-win32.c \
 	mkstemp.c \
 	vasprintf.c \
-	fmemopen.c \
-	memmem.c
+	fmemopen.c
 libclib_la_SOURCES += $(threads_files)
 libclib_la_LIBADD += -lm $(LTLIBICONV) -lpsapi
 libclib_la_LDFLAGS += -no-undefined
