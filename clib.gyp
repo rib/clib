@@ -49,7 +49,7 @@
         ],
       },
       'sources': [
-	'config.h',
+	'clib-config.h',
         'clib/ascii_snprintf.c',
         'clib/carray.c',
         'clib/cbytearray.c',
