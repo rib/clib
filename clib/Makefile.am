@@ -10,7 +10,7 @@ endif
 
 AM_CPPFLAGS = \
 	-I$(top_builddir) \
-	-I$(top_srcdir) \
+	-I$(srcdir)/../ \
 	-I$(srcdir) \
 	-I$(srcdir)/sfmt \
 	$(CLIB_EXTRA_CFLAGS) \
