@@ -48,7 +48,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "autotool-config.h"
+#include "config.h"
 #endif
 
 

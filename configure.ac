@@ -6,7 +6,7 @@ AC_INIT(clib, [1.0.0], [http://github.com/rib/clib/issues])
 AC_CONFIG_SRCDIR(clib/clib.h)
 AC_CONFIG_AUX_DIR([build])
 AC_CONFIG_MACRO_DIR([build/autotools])
-AC_CONFIG_HEADERS(autotool-config.h)
+AC_CONFIG_HEADERS(config.h)
 AC_CANONICAL_SYSTEM
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE([1.11 foreign -Wno-portability no-define no-dist-gzip dist-bzip2 subdir-objects])
