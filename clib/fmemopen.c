@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-#include <config.h>
+#include <clib-config.h>
 
 #include <errno.h>
 #include <stdio.h>

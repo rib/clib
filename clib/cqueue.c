@@ -28,7 +28,7 @@
  *
  */
 
-#include <config.h>
+#include <clib-config.h>
 
 #include <stdio.h>
 #include <clib.h>

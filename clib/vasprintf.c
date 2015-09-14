@@ -1,6 +1,6 @@
 #include <stdarg.h>
 
-#include <config.h>
+#include <clib-config.h>
 
 #include <stdio.h>
 #include <stdlib.h>

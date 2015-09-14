@@ -32,7 +32,7 @@
  * 3D Maths Primer for Graphics and Game Development ISBN-10: 1556229119
  */
 
-#include "config.h"
+#include "clib-config.h"
 
 #include "cquaternion.h"
 #include "cquaternion-private.h"

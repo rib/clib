@@ -23,7 +23,7 @@
  *
  */
 
-#include "config.h"
+#include "clib-config.h"
 
 #include "cvector.h"
 

@@ -25,7 +25,7 @@
 #define _CRT_RAND_S /* for rand_s api*/
 #endif
 
-#include <config.h>
+#include <clib-config.h>
 
 #ifdef C_PLATFORM_UNIX
 #include <sys/types.h>

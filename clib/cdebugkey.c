@@ -24,7 +24,7 @@
  *   Robert Bragg <robert@linux.intel.com>
  */
 
-#include <config.h>
+#include <clib-config.h>
 
 #include <clib.h>
 

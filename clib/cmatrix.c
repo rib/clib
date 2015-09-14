@@ -59,7 +59,7 @@
  *   inverse.
  */
 
-#include "config.h"
+#include "clib-config.h"
 
 #include <math.h>
 #include <string.h>

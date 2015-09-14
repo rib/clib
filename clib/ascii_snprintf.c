@@ -147,7 +147,7 @@
  *    included throughout the project files:
  *
  *    	#if HAVE_CONFIG_H
- *    	#include <config.h>
+ *    	#include <clib-config.h>
  *    	#endif
  *    	#if HAVE_STDARG_H
  *    	#include <stdarg.h>
@@ -169,7 +169,7 @@
  * <http://www.jhweiss.de/software/snprintf.html>.
  */
 
-#include <config.h>
+#include <clib-config.h>
 
 #include <clib.h>
 

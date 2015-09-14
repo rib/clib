@@ -23,7 +23,7 @@
 
 /* This list implementation is based on the Wayland source code */
 
-#include <config.h>
+#include <clib-config.h>
 
 #include <stdlib.h>
 #include <string.h>
