@@ -2,6 +2,11 @@
   "includes": [
     "common.gypi"
   ],
+
+  'variables': {
+    'clib_library%': 'static_library', # allow override to 'shared_library' for DLL/.so builds
+  },
+
   'target_defaults': {
     'cflags': [
       '-std=c11',
@@ -172,7 +177,7 @@
         [ 'OS=="emscripten"', {
           'sources': [
             'clib/clib-web.h',
-            'clib/cmisc-emscripten.c'
+            'clib/cmisc-emscripten.c',
             'clib/cfile-emscripten.c',
           ],
         }],
