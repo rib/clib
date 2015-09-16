@@ -148,7 +148,6 @@
             'clib/cdate-unix.c',
             'clib/cdir-unix.c',
             'clib/cmisc-unix.c',
-            'clib/cxdg-unix.c',
 	    'clib/ctls.c',
           ],
           'link_settings': {
@@ -194,6 +193,9 @@
           'link_settings': {
             'libraries': [ '-ldl', '-lrt' ],
           },
+          'sources': [
+            'clib/cxdg-unix.c',
+	  ]
         }],
         [ 'OS=="android"', {
           'link_settings': {
