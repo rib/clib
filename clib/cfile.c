@@ -353,7 +353,7 @@ c_get_current_dir(void)
 #endif
 }
 
-#ifdef C_PLATFORM_UNIX
+#if defined(C_PLATFORM_UNIX) && !defined(C_PLATFORM_WEB)
 bool
 c_file_test(const char *filename, c_file_test_t test)
 {

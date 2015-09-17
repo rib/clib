@@ -7,6 +7,17 @@
     'msvs_multi_core_compile': '0',  # we do enable multicore compiles, but not using the V8 way
   },
 
+  'conditions': [
+     ['OS=="emscripten"', {
+        'make_global_settings': [
+	     ['AR', '<!(which emar)'],
+	     ['CC', '<!(which emcc)'],
+	     ['CXX', '<!(which em++)'],
+	]
+     },{
+     }],
+  ],
+
   'target_defaults': {
     'default_configuration': 'Debug',
     'configurations': {
@@ -202,16 +213,12 @@
        'ldflags': [ '-Wl,-z,allextract' ]
      }],
      ['OS=="emscripten"', {
-	'host_cc': '<!(which emcc)',
-	'host_cxx': '<!(which em++)',
-	'target_cc': '<!(which emcc)',
-	'target_cxx': '<!(which em++)',
-       'make_global_settings': [
-	 ['CC', '<!(which emcc)'],
-	 ['CXX', '<!(which em++)'],
-       ]
-     }],
-
+        'target_conditions': [
+          ['_type=="static_library"', {
+            'standalone_static_library': 1, # disable thin archive unsupported by llvm-ar
+          }],
+	]
+     }]
     ],
   },
 }

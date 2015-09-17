@@ -54,7 +54,7 @@
         ],
       },
       'sources': [
-	'clib-config.h',
+        'clib-config.h',
         'clib/ascii_snprintf.c',
         'clib/carray.c',
         'clib/cbytearray.c',
@@ -149,12 +149,6 @@
             '-Wextra',
             '-Wno-unused-parameter',
           ],
-          'sources': [
-            'clib/cdate-unix.c',
-            'clib/cdir-unix.c',
-            'clib/cmisc-unix.c',
-	    'clib/ctls.c',
-          ],
           'link_settings': {
             'libraries': [ '-lm' ],
             'conditions': [
@@ -178,7 +172,6 @@
           'sources': [
             'clib/clib-web.h',
             'clib/cmisc-emscripten.c',
-            'clib/cfile-emscripten.c',
           ],
         }],
         [ 'OS=="mac"', {
@@ -186,8 +179,12 @@
             '_DARWIN_USE_64_BIT_INODE=1'
           ],
           'sources': [
+            'clib/cdir-unix.c',
+            'clib/cdate-unix.c',
+            'clib/cmisc-unix.c',
+            'clib/ctls.c',
             'clib/fmemopen.c',
-	  ]
+          ]
         }],
         [ 'OS!="mac"', {
           # Enable on all platforms except OS X. The antique gcc/clang that
@@ -199,14 +196,22 @@
             'libraries': [ '-ldl', '-lrt' ],
           },
           'sources': [
+            'clib/cdir-unix.c',
+            'clib/cdate-unix.c',
+            'clib/cmisc-unix.c',
             'clib/cxdg-unix.c',
-	  ]
+            'clib/ctls.c',
+          ]
         }],
         [ 'OS=="android"', {
           'link_settings': {
             'libraries': [ '-ldl' ],
           },
           'sources': [
+            'clib/cdir-unix.c',
+            'clib/cdate-unix.c',
+            'clib/cxdg-unix.c',
+            'clib/ctls.c',
             'clib/vasprintf.c',
           ]
         }],
