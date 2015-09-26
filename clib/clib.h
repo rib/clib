@@ -484,7 +484,6 @@ char *c_strdup_printf(const char *format, ...);
 char *c_strdup_vprintf(const char *format, va_list args);
 char *c_strndup(const char *str, size_t n);
 const char *c_strerror(int errnum);
-char *c_strndup(const char *str, size_t n);
 void c_strfreev(char **str_array);
 char *c_strconcat(const char *first, ...);
 char **c_strsplit(const char *string, const char *delimiter, int max_tokens);
@@ -575,7 +574,6 @@ void
 c_string_append_vprintf(c_string_t *string, const char *format, va_list args);
 c_string_t *c_string_append_unichar(c_string_t *string, c_codepoint_t c);
 c_string_t *c_string_append_c(c_string_t *string, char c);
-c_string_t *c_string_append(c_string_t *string, const char *val);
 c_string_t *
 c_string_append_len(c_string_t *string, const char *val, c_ssize_t len);
 c_string_t *c_string_truncate(c_string_t *string, size_t len);
@@ -1316,7 +1314,6 @@ char *c_shell_quote(const char *unquoted_string);
 /*
  * Spawn
  */
-c_quark_t c_shell_error_get_quark(void);
 
 #define C_SPAWN_ERROR c_shell_error_get_quark()
 
