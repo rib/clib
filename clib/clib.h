@@ -490,6 +490,7 @@ char **c_strsplit(const char *string, const char *delimiter, int max_tokens);
 char **
 c_strsplit_set(const char *string, const char *delimiter, int max_tokens);
 char *c_strreverse(char *str);
+char *c_strrstr(const char *str1, const char *str2);
 bool c_str_has_prefix(const char *str, const char *prefix);
 bool c_str_has_suffix(const char *str, const char *suffix);
 unsigned int c_strv_length(char **str_array);
