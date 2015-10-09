@@ -794,7 +794,9 @@ void c_hash_table_insert_replace(c_hash_table_t *hash,
                                  bool replace);
 unsigned int c_hash_table_size(c_hash_table_t *hash);
 c_llist_t *c_hash_table_get_keys(c_hash_table_t *hash);
+void **c_hash_table_get_keys_array(c_hash_table_t *hash);
 c_llist_t *c_hash_table_get_values(c_hash_table_t *hash);
+void **c_hash_table_get_values_array(c_hash_table_t *hash);
 void *c_hash_table_lookup(c_hash_table_t *hash, const void *key);
 bool c_hash_table_lookup_extended(c_hash_table_t *hash,
                                   const void *key,
