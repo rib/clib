@@ -253,9 +253,9 @@ c_file_get_contents(const char *filename,
              (nread == -1 && errno == EINTR));
 
     close(fd);
-    str[st.st_size] = '\0';
+    str[offset] = '\0';
     if (length) {
-        *length = st.st_size;
+        *length = offset;
     }
     *contents = str;
     return true;
