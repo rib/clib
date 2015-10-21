@@ -39,6 +39,8 @@ matrix:
     exclude:
         - os: osx
           env: USE_GYP=true OS="emscripten"
+        - compiler: gcc
+          env: USE_GYP=true OS="emscripten"
 
 before_install:
     - if test "$CC" = "gcc"; then export CC=gcc-4.9; export CXX=g++-4.9; fi
