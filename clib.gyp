@@ -201,8 +201,14 @@
             'clib/cmisc-unix.c',
             'clib/cxdg-unix.c',
             'clib/ctls.c',
+	    'clib/cbacktrace-linux.c',
           ]
         }],
+        [ 'OS!="linux"', {
+          'sources': [
+	    'clib/cbacktrace.c',
+	  ]
+	}],
         [ 'OS=="android"', {
           'link_settings': {
             'libraries': [ '-ldl' ],
