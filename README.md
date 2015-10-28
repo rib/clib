@@ -1,6 +1,8 @@
-Travis CI: [![Build Status](https://travis-ci.org/rig-project/clib.png)](https://travis-ci.org/rig-project/clib)
+Travis CI: [![Build Status](https://travis-ci.org/rig-project/clib.svg?branch=master)](https://travis-ci.org/rig-project/clib)
 
-AppVeyor CI: [![Build status](https://ci.appveyor.com/api/projects/status/nw3j2yvvlkfuwc78?svg=true)](https://ci.appveyor.com/project/rib/clib)
+AppVeyor CI: [![Build status](https://ci.appveyor.com/api/projects/status/nw3j2yvvlkfuwc78/branch/master?svg=true)](https://ci.appveyor.com/project/rib/clib/branch/master)
+
+
 
 ##Clib: A C utilities library
 
