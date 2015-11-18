@@ -118,7 +118,6 @@
       'defines': [
         'SFMT_MEXP=19937',
         '_C_COMPILATION',
-        'ENABLE_UNIT_TESTS'
       ],
       'conditions': [
         [ 'OS=="win"', {
@@ -163,6 +162,9 @@
           'conditions': [
             ['clib_library=="shared_library"', {
               'cflags': [ '-fPIC' ],
+	      'defines': [
+		'ENABLE_UNIT_TESTS'
+	      ],
             }],
             ['clib_library=="shared_library" and OS!="mac"', {
               'link_settings': {
