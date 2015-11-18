@@ -160,17 +160,17 @@
             ],
           },
           'conditions': [
-            ['clib_library=="shared_library"', {
+            ['_type=="shared_library"', {
               'cflags': [ '-fPIC' ],
 	      'defines': [
 		'ENABLE_UNIT_TESTS'
 	      ],
             }],
-            ['clib_library=="shared_library" and OS!="mac"', {
-              'link_settings': {
-                'libraries': [ '-Wl,-soname,libclib.so.1.0' ],
-              },
-            }],
+#            ['_type=="shared_library" and OS!="mac"', {
+#              'link_settings': {
+#                'libraries': [ '-Wl,-soname,libclib.so.1.0' ],
+#              },
+#            }],
           ],
         }],
         [ 'OS=="emscripten"', {
