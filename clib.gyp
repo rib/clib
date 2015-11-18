@@ -53,6 +53,9 @@
           }],
         ],
       },
+      'all_dependent_settings': {
+        'include_dirs': [ 'clib' ],
+      },
       'sources': [
         'clib-config.h',
         'clib/ascii_snprintf.c',
