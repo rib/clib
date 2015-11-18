@@ -30,7 +30,7 @@
 
   'targets': [
     {
-      'target_name': 'libclib',
+      'target_name': 'clib',
       'type': '<(clib_library)',
       'include_dirs': [
         '.',
