@@ -5,6 +5,7 @@
 
   'variables': {
     'clib_library%': 'static_library', # allow override to 'shared_library' for DLL/.so builds
+    'enable_uv%': 0,
   },
 
   'target_defaults': {
@@ -75,8 +76,6 @@
         'clib/cmatrix.c',
         'clib/cmatrix.h',
         'clib/cmem.c',
-        'clib/cmodule.c',
-        'clib/cmodule.h',
         'clib/coutput.c',
         'clib/cpath.c',
         'clib/cptrarray.c',
@@ -120,6 +119,18 @@
         '_C_COMPILATION',
       ],
       'conditions': [
+        [ 'enable_uv==1', {
+          'dependencies': [
+            '../libuv/uv.gyp:libuv'
+          ],
+          'defines': [
+            'USE_UV=1'
+          ],
+          'sources': [
+            'clib/cmodule.c',
+            'clib/cmodule.h',
+          ]
+        }],
         [ 'OS=="win"', {
           'defines': [
             '_WIN32_WINNT=0x0600',
