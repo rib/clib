@@ -4,7 +4,6 @@
   ],
 
   'variables': {
-    'clib_library%': 'static_library', # allow override to 'shared_library' for DLL/.so builds
     'enable_uv%': 0,
   },
 
@@ -31,7 +30,7 @@
   'targets': [
     {
       'target_name': 'clib',
-      'type': '<(clib_library)',
+      'type': 'static_library',
       'include_dirs': [
         '.',
         'clib',
