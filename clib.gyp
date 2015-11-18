@@ -226,7 +226,7 @@
             'clib/vasprintf.c',
           ]
         }],
-        ['clib_library=="shared_library"', {
+        ['_type=="shared_library"', {
           'defines': [ 'BUILDING_CLIB_SHARED=1' ]
         }],
       ]
