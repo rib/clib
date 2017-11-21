@@ -1,0 +1,3 @@
+option('support_libuv', type : 'feature', value : 'auto',
+       description: 'Whether to support libuv dependant features',
+       yield: true)
